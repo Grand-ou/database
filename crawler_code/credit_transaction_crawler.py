@@ -3,12 +3,12 @@ import time
 import os
 import csv
 import requests
-
+from crawler import CrawlerBase
 import pandas as pd
 from dateutil.relativedelta import relativedelta
 from bs4 import BeautifulSoup
 
-from crawler import JsonCrawler
+
 last_month = datetime.date.today() - relativedelta(months=1)
 def save_link(book_link, book_name):
     the_book = requests.get(book_link, stream=True)
