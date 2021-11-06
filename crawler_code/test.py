@@ -56,7 +56,7 @@ def financial_statement(year, season):
     url = 'http://mops.twse.com.tw/mops/web/ajax_t163sb06'
     form_data = {
         'encodeURIComponent':1,
-        'step':1,
+        'step':1,ㄓ
         'firstin':1,
         'off':1,
         'TYPEK':'sii',
