@@ -3,8 +3,8 @@ import datetime
 import pandas as pd
 from crawler import CrawlerBase ,get_jsondata
 from dateutil.relativedelta import relativedelta
-# file_path = 'C:\\Users\\grand\\github\\crawler'
-file_path = 'C:\\Users\\ouchu\\database\\crawler_data'
+file_path = 'C:\\Users\\grand\\database\\crawler_data'
+# file_path = 'C:\\Users\\ouchu\\database\\crawler_data'
 
 class StockInfo(CrawlerBase):
     def __init__(self, time, path):
@@ -17,8 +17,8 @@ class StockInfo(CrawlerBase):
         self.data = get_jsondata(self.url, self.sheet)
     def  processing(self):
         line = self.data
-        header = ['date', 'securities_code', 'securities_name', 'close', 'open', 'trade_volumn']
-        line.drop(columns=[3, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 16], inplace = True)
+        header = ['date', 'securities_code', 'securities_name', 'close', 'open', 'high', 'low', 'trade_volumn']
+        line.drop(columns=[3, 7, 8, 10, 11, 12, 13, 14, 15, 16], inplace = True)
         line.insert(0, '0', self.time.strftime('%Y-%m-%d'))
         line=line.values.tolist()
         
@@ -30,7 +30,7 @@ class StockInfo(CrawlerBase):
 if __name__ == '__main__':
     last_month = datetime.date.today() - relativedelta(months=2)
     today = datetime.date.today()
-    oneday = datetime.timedelta(days=1)
+    oneday = datetime.timedelta(days=2)
     yesterday = today - oneday 
     crawler = StockInfo(yesterday, file_path)
     crawler.download_to_csv()
