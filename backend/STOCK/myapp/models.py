@@ -38,7 +38,8 @@ class Company(models.Model):
 
 class Strategy(models.Model): ##存每個使用者的做了什麼決策
     Sid = models.AutoField(primary_key=True)
-    Company_id = models.ForeignKey('Company', on_delete=models.CASCADE, )
+    budget = models.FlaotField()
+    Company_id = models.ForeignKey('Company', on_delete=models.CASCADE)
     Creator_id = models.ForeignKey('Investor', on_delete=models.SET_NULL, null=True)
     strategy_type = models.CharField()#RSI:R, MACD:M, KD:K, EMA : E
     #Buy_indicator = models.TextField()
@@ -50,14 +51,15 @@ class Strategy(models.Model): ##存每個使用者的做了什麼決策
         db_table = 'STOCK"."Strategy'
     
     def __str__(self):
-        return f'{self.Sid}by{self.Creator_id}_{self.Company_id}with{self.strategy_type}'
+        return f'{self.Sid}_by_{self.Creator_id}_{self.Company_id}with{self.strategy_type}'
 
-class RSI(models.model): ##存用RSI的策略
+class RSI(models.Model): ##存用RSI的策略
     Sid = models.ForeignKey('Strategy', on_delete=models.CASCADE, primary_key=True)
     #company_id = ForeignKey('Company', on_delete=models.CASCADE)
     Threshold = models.FloatField()
     RSI_Length = models.FloatField()
     Loss = models.FloatField()
+    profit = models.FloatField()
 
     class Meta:
         db_table = 'STOCK"."RSI'
@@ -71,6 +73,7 @@ class KD(models.model): ##存用KD的策略
     Threshold = models.FloatField()
     KD_Length = models.FloatField()
     Loss = models.FloatField()
+    profit = models.FloatField()
 
     class Meta:
         db_table = 'STOCK"."KD'
@@ -82,6 +85,7 @@ class MACD(models.model): ##存用MACD的策略
     Sid = models.ForeignKey('Strategy',on_delete=models.CASCADE, primary_key=True)
     #company_id = ForeignKey('Company', on_delete=models.CASCADE)
     Loss = models.FloatField()
+    profit = models.FloatField()
 
     class Meta:
         db_table = 'STOCK"."MACD'
@@ -93,6 +97,7 @@ class EMA(models.model): ##存用EMA的策略
     Sid = models.ForeignKey('Strategy',on_delete=models.CASCADE, primary_key=True)
     #company_id = ForeignKey('Company', on_delete=models.CASCADE)
     Loss = models.FloatField()
+    profit = models.FloatField()
 
     class Meta:
         db_table = 'STOCK"."EMA'
@@ -100,18 +105,18 @@ class EMA(models.model): ##存用EMA的策略
     def __str__(self):
         return f'{self.Sid}_loss:{self.Loss}'
 
-class Market(models.Model):
-    MDate = models.DateField(primary_key=True)
-    MIndex = models.FloatField()
-    Fluc_amount = models.FloatField()
-    Fluc_ratio = models.FloatField()
-    Deal_volume = models.TextField()
+#class Market(models.Model):
+#    MDate = models.DateField(primary_key=True)
+#    MIndex = models.FloatField()
+#    Fluc_amount = models.FloatField()
+#    Fluc_ratio = models.FloatField()
+#    Deal_volume = models.TextField()
 
-    class Meta:
-        db_table = 'Stock"."Market'
+#    class Meta:
+#        db_table = 'Stock"."Market'
 
-    def __str__(self):
-        return f'{self.MDate}_market'
+#    def __str__(self):
+#        return f'{self.MDate}_market'
 
 class Deal(models.Model):
     Company_id = models.ForeignKey('Company', on_delete=models.CASCADE)
@@ -134,18 +139,18 @@ class Deal(models.Model):
     def __str__(self):
         return f'{self.Company_id}_{self.Ddate}_deal'
  	
-class Foreign_inv(models.Model):
-    Company_id = models.ForeignKey('Deal', to_field='Company_id', on_delete=models.CASCADE)
-    Deal_date = models.ForeignKey('Deal', to_field='Ddate', on_delete=models.CASCADE)
-    FBuy = models.TextField()
-    FSell = models.TextField()
-    FNet = models.TextField()
-    FHolding = models.TextField()
-    FHolding_ratio = models.DecimalField()
+#class Foreign_inv(models.Model):
+#    Company_id = models.ForeignKey('Deal', to_field='Company_id', on_delete=models.CASCADE)
+#    Deal_date = models.ForeignKey('Deal', to_field='Ddate', on_delete=models.CASCADE)
+#    FBuy = models.TextField()
+#    FSell = models.TextField()
+#    FNet = models.TextField()
+#    FHolding = models.TextField()
+#    FHolding_ratio = models.DecimalField()
 
-    class Meta:
-        db_table = 'STOCK"."Foreign_inv'
-        unique_together = (("Company_id", "Deal_date"),)
+#    class Meta:
+#        db_table = 'STOCK"."Foreign_inv'
+#        unique_together = (("Company_id", "Deal_date"),)
     
-    def __str__(self):
-        return f'{self.Company_id}_{self.Deal_date}_foreign'
+#    def __str__(self):
+#       return f'{self.Company_id}_{self.Deal_date}_foreign'
