@@ -22,7 +22,7 @@ for j in range(365):
         continue
     # DailyDeal(today, file_path).download_to_csv()
     ForeignInvestor(today, file_path).download_to_csv()
-    # StockInfo(today, file_path).download_to_csv()
+    # StockInfo(today, file_xpath).download_to_csv()
     # StockRatio(today, file_path).download_to_csv()
     time.sleep(1)
 =======
