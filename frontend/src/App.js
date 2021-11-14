@@ -10,7 +10,8 @@ import CreateComplete from './Container/CreateComplete';
 import WatchHistory from "./Container/WatchHistory";
 import Login_Register from './Container/Login_Register';
 import Login_Succeed from './Container/LoginSucceed';
-import Register_Succeed from './Container/RegisterSucceed'
+import Register_Succeed from './Container/RegisterSucceed';
+import Header from './Container/Header'
 
 const App = () => {
 
@@ -39,6 +40,7 @@ const App = () => {
   
 
   return <>
+    <Header />
     {LR?
     <Login_Register setUserID={setUserID} setPassword={setPassword} setLogin={setLogin} setRegister={setRegister} setLR={setLR} />
     :<></>}
@@ -46,7 +48,7 @@ const App = () => {
     <Login_Succeed userID={userID} password={password} setLogin={setLogin} setMenuset={setMenuset} setLR={setLR} />
     :<></>}
     {register?
-    <Register_Succeed userID={userID} password={password} setRegister={setLogin} setMenuset={setMenuset} setLR={setLR} />
+    <Register_Succeed userID={userID} password={password} setRegister={setRegister} setMenuset={setMenuset} setLR={setLR} />
     :<></>}
     {menuset?<MenuSet setClickDeal={setClickDeal} setClickCreate={setClickCreate} setMenuset={setMenuset} />
     :<></>}
