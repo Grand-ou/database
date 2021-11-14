@@ -28,7 +28,7 @@ class ForeignInvestor(CrawlerBase):
         line = pd.DataFrame(parsed_csv)
         line.drop(columns=[0, 3, 4, 5, 6, 7, 8, 11], inplace=True)
         line.insert(0, '0', self.time.strftime('%Y-%m-%d'))
-        print(line)
+        # print(line)
         self.data = line.values.tolist()
         self.header = ['date', 'securities_code', 'securities_name', 'buy', 'sell']
 

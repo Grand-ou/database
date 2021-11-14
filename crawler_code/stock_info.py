@@ -17,6 +17,8 @@ class StockInfo(CrawlerBase):
         self.data = get_jsondata(self.url, self.sheet)
     def  processing(self):
         line = self.data
+        if not line.values.tolist():
+            return 0
         header = ['date', 'securities_code', 'securities_name', 'close', 'open', 'high', 'low', 'trade_volumn']
         line.drop(columns=[3, 7, 8, 10, 11, 12, 13, 14, 15, 16], inplace = True)
         line.insert(0, '0', self.time.strftime('%Y-%m-%d'))

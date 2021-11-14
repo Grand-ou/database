@@ -20,13 +20,15 @@ class StockRatio(CrawlerBase):
 
     def processing(self):
         line = self.data
+        if line == []:
+            return 0
         line.pop(0)
         line.pop(0)
         line.pop(-1)
         line.pop(-1)
         line.pop(-1)
         line = pd.DataFrame(line)
-        print(line)
+        # print(line)
         header = ['date', 'securities_code', 'securities_name',
                   'dividend_year', 'P/E_ratio', 'Fiscal_year_quarter']
         line.drop(columns=[3, 5], inplace=True)
