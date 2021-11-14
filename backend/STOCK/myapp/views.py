@@ -55,18 +55,7 @@ def stockinformation(request, informationid = none):
 
    return Response("stock information", status=status.HTTP_200_OK)
 
-def strategecreate(request):
-     ## 將策略存進資料庫
-    if request.method == 'POST':
-        Company_id = request.POST['Company_id']
-        Buy_indicator = request.POST['Buy_indicator']
-        Buy_parameter = request.POST['BUY_parameter']
-        Sell_indicator = request.POST['Sell_indicator']
-        Sell_parameter = request.POST['Sell_parameter'] 
-        Budget = request.POST['Budget']##?
-        unit = Strategy.objects.create(Company_id = Company_id, Buy_indicator = Buy_indicator, Sell_indicator = Sell_indicator, Sell_parameter = Sell_parameter ) 
-        unit.save()
-      return Response("stratege saved", status=status.HTTP_200_OK)   
+
 def seestratege(request, user = None):
      unit = Strategy.objects.get(Creator_id  = user)
      Sid = unit.sid
