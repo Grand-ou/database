@@ -81,7 +81,7 @@ def rsi_create(request):
         Budget = request.POST.get('Budget')
 
         strategy = Strategy(Budget=Budget, Creator_id=Creator_id, Strategy_type='R')
-	strategy.save
+        strategy.save
         Sid = Strategy.objects.latest('Sid')
         rsi = RSI(Sid=Sid, Company_id=Company_id, Length=Length, Threshold=Threshold, Profit=Profit, Loss=Loss)
         rsi.save()
@@ -99,7 +99,7 @@ def macd_create(request):
         Budget = request.POST.get('Budget')
 
         strategy = Strategy(Budget=Budget, Creator_id=Creator_id, Strategy_type='M')
-	strategy.save
+        strategy.save
         Sid = Strategy.objects.latest('Sid')
         macd = MACD(Sid=Sid, Company_id=Company_id, Fast=Fast_line, Slow=Slow_line, Profit=Profit, Loss=Loss)
         macd.save()
@@ -117,7 +117,7 @@ def Kd_create(request):
         Budget = request.POST.get('Budget')
 
         strategy = Strategy(Budget=Budget, Creator_id=Creator_id, Strategy_type='K')
-	strategy.save
+        strategy.save
         kd = KD(Sid=Sid, Company_id=Company_id, Fast=Fast_line, Slow=Slow_line, Profit=Profit, Loss=Loss)
         kd.save()
         return render(request, 'kd_create.html', locals())
@@ -134,7 +134,7 @@ def Ema_create(request):
         Budget = request.POST.get('Budget')
 
         strategy = Strategy(Budget=Budget, Creator_id=Creator_id, Strategy_type='E')
-	strategy.save
+        strategy.save
         Sid = Strategy.objects.latest('Sid')
         ema = EMA(Sid=Sid, Company_id=Company_id, Fast=Fast_line, Slow=Slow_line, Profit=Profit, Loss=Loss)
         ema.save()
