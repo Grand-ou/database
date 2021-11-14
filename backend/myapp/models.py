@@ -18,7 +18,7 @@ class Investor(models.Model):
     Phone = models.TextField()
 
     class Meta:
-        db_table = 'Stock"."Investor'
+        db_table = 'Stock"."investor'
 
     def __str__(self):
         return self.Iid
@@ -32,7 +32,7 @@ class Company(models.Model):
     Industry_type = models.TextField()
 
     class Meta:
-        db_table = 'Stock"."Company'
+        db_table = 'Stock"."company'
 
     def __str__(self):
         return self.Cid
@@ -45,7 +45,7 @@ class Strategy(models.Model): ##存每個使用者的做了什麼決策
     Strategy_type = models.CharField(max_length=1)#RSI:R, MACD:M, KD:K, EMA : E
     
     class Meta:
-        db_table = 'Stock"."Strategy'
+        db_table = 'Stock"."strategy'
     
     def __str__(self):
         return f'{self.Sid}_by_{self.Creator_id}_{self.Company_id}with{self.Strategy_type}'
@@ -59,7 +59,7 @@ class RSI(models.Model): ##存用RSI的策略
     Profit = models.FloatField()
 
     class Meta:
-        db_table = 'Stock"."RSI'
+        db_table = 'Stock"."rsi'
 
     def __str__(self):
         return f'{self.Sid}_thres:{self.Threshold}_len:{self.length}_loss:{self.Loss}'
@@ -73,7 +73,7 @@ class KD(models.Model): ##存用RSI的策略
     Profit = models.FloatField()
 
     class Meta:
-        db_table = 'Stock"."KD'
+        db_table = 'Stock"."kd'
 
     def __str__(self):
         return f'{self.Sid}_thres:{self.Threshold}_len:{self.length}_loss:{self.Loss}'
@@ -87,7 +87,7 @@ class MACD(models.Model): ##存用RSI的策略
     Profit = models.FloatField()
 
     class Meta:
-        db_table = 'Stock"."MACD'
+        db_table = 'Stock"."macd'
 
     def __str__(self):
         return f'{self.Sid}_loss:{self.Loss}'
@@ -101,7 +101,7 @@ class EMA(models.Model): ##存用RSI的策略
     Profit = models.FloatField()
 
     class Meta:
-        db_table = 'Stock"."EMA'
+        db_table = 'Stock"."ema'
 
     def __str__(self):
         return f'{self.Sid}_loss:{self.Loss}'
@@ -116,7 +116,7 @@ class Deal(models.Model):
     Low = models.FloatField()
 
     class Meta:
-        db_table = 'Stock"."Deal'
+        db_table = 'Stock"."deal'
         unique_together = (("Company_id", "Ddate"),)
 
     def __str__(self):
