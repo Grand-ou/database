@@ -1,12 +1,14 @@
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django.views.decorators.http import require_GET, require_POST
 
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.shortcuts import render, redirect
-from myapp.models import Investor, Company, Strategy, Market, Deal, Foreign_inv, RSI, KD, MACD, EMA
+from myapp.models import Investor, Company, Strategy, Deal, RSI, KD, MACD, EMA
 import pandas as pd
+import numpy as np
 
 
 def signup(request):
@@ -44,7 +46,7 @@ def login_request(request):
 
 
 
-def stockinformation(request, informationid = none):
+def stockinformation(request, informationid = None):
     unit = Company.objects.get(id = informationid)
     Cid = unit.Cid
     CName = unit.CName
@@ -53,7 +55,7 @@ def stockinformation(request, informationid = none):
     Industry_type = unit.Industry_type
     unit.save()
 
-   return Response("stock information", status=status.HTTP_200_OK)
+    return Response("stock information", status=status.HTTP_200_OK)
 
 
 def seestratege(request, user = None):
@@ -64,8 +66,7 @@ def seestratege(request, user = None):
      Creator_id = unit.Creator_id
      strategy_type = unit. strategy_type
      unit.save()
-
-   return Response("stratege", status=status.HTTP_200_OK)
+     return Response("stratege", status=status.HTTP_200_OK)
 
 
 @require_POST
@@ -81,7 +82,7 @@ def rsi_create(request):
 
         strategy = Strategy(Budget=Budget, Creator_id=Creator_id, Strategy_type='R')
         Sid = Strategy.objects.latest('Sid')
-        rsi = Rsi(Sid=Sid, Company_id=Company_id, Length=Length, Threshold=Threshold, Profit=Profit, Loss=Loss)
+        rsi = RSI(Sid=Sid, Company_id=Company_id, Length=Length, Threshold=Threshold, Profit=Profit, Loss=Loss)
         rsi.save()
         return render(request, 'rsi_create.html', locals())
 
@@ -98,7 +99,7 @@ def macd_create(request):
 
         strategy = Strategy(Budget=Budget, Creator_id=Creator_id, Strategy_type='M')
         Sid = Strategy.objects.latest('Sid')
-        macd = Macd(Sid=Sid, Company_id=Company_id, Fast=Fast_line, Slow=Slow_line, Profit=Profit, Loss=Loss)
+        macd = MACD(Sid=Sid, Company_id=Company_id, Fast=Fast_line, Slow=Slow_line, Profit=Profit, Loss=Loss)
         macd.save()
         return render(request, 'macd_create.html', locals())
 
@@ -114,7 +115,7 @@ def Kd_create(request):
         Budget = request.POST.get('Budget')
 
         strategy = Strategy(Budget=Budget, Creator_id=Creator_id, Strategy_type='K')
-        kd = Kd(Sid=Sid, Company_id=Company_id, Fast=Fast_line, Slow=Slow_line, Profit=Profit, Loss=Loss)
+        kd = KD(Sid=Sid, Company_id=Company_id, Fast=Fast_line, Slow=Slow_line, Profit=Profit, Loss=Loss)
         kd.save()
         return render(request, 'kd_create.html', locals())
 
@@ -131,7 +132,7 @@ def Ema_create(request):
 
         strategy = Strategy(Budget=Budget, Creator_id=Creator_id, Strategy_type='E')
         Sid = Strategy.objects.latest('Sid')
-        ema = Ema(Sid=Sid, Company_id=Company_id, Fast=Fast_line, Slow=Slow_line, Profit=Profit, Loss=Loss)
+        ema = EMA(Sid=Sid, Company_id=Company_id, Fast=Fast_line, Slow=Slow_line, Profit=Profit, Loss=Loss)
         ema.save()
         return render(request, 'ema_create.html', locals())
 
@@ -164,7 +165,7 @@ def test(sig, Open):
 def back_test_rsi(request):
     if request.method == "POST":
         Company_id = request.POST.get('Company_id')
-        Period = request.POST.get('Length')
+        period = request.POST.get('Length')
         Threshold = request.POST.get('Threshold')
         Profit = request.POST.get('Profit')
         Loss = request.POST.get('Loss')
@@ -213,7 +214,7 @@ def back_test_rsi(request):
 def back_test_kd(request):
     if request.method == "POST":
         Company_id = request.POST.get('Company_id')
-        Period = request.POST.get('Length')
+        period = request.POST.get('Length')
         Threshold = request.POST.get('Threshold')
         Profit = request.POST.get('Profit')
         Loss = request.POST.get('Loss')
