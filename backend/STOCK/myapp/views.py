@@ -78,24 +78,6 @@ def seestratege(request, user = None):
 
    return Response("stratege", status=status.HTTP_200_OK)
 
-#def Backtest(request):
-
-        ## 回測
-    if Buy_indicator == 'RSI':
-        BuyPriceset =  Deal.objects.filter(Company_id = Company_id , RSI = Buy_parameter).values('Open_price')
-        ## SellPriceset =  Deal.objects.filter(Company_id = Company_id , RSI = Buy_parameter).values('Open_price')
-        Buyprice = 0
-        Sellprice = 0
-        for p in BuyPriceset:
-            if p <= Budget:
-                Buyprice = p
-                Budget = Budget - Buyprice
-                break
-        
-
-
-       
-    return render(request, 'Backtest.html', locals())
 
 @require_POST
 def rsi_create(request):
