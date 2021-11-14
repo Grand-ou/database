@@ -44,20 +44,20 @@ class Strategy(models.Model): ##存每個使用者的做了什麼決策
     strategy_type = models.CharField()#RSI:R, MACD:M, KD:K, EMA : E
     #Buy_indicator = models.TextField()
     #Buy_parameter = models.DecimalField(decimal_places=2)
-    #Sell_indicator = models.TextField()
+    #ell_indicator = models.TextField()
     #Sell_parameter = models.DecimalField(decimal_places=2)
     
     class Meta:
         db_table = 'STOCK"."Strategy'
     
     def __str__(self):
-        return f'{self.Sid}_by_{self.Creator_id}_{self.Company_id}with{self.strategy_type}'
+        return f'{self.Sid}_by_{self.Creator_id}_{self.Company_id}with{self.Strategy_type}'
 
 class RSI(models.Model): ##存用RSI的策略
     Sid = models.ForeignKey('Strategy', on_delete=models.CASCADE, primary_key=True)
-    #company_id = ForeignKey('Company', on_delete=models.CASCADE)
+#    company_id = ForeignKey('Company', on_delete=models.CASCADE)
     Threshold = models.FloatField()
-    RSI_Length = models.FloatField()
+    Length = models.FloatField()
     Loss = models.FloatField()
     profit = models.FloatField()
 
@@ -67,11 +67,11 @@ class RSI(models.Model): ##存用RSI的策略
     def __str__(self):
         return f'{self.Sid}_thres:{self.Threshold}_len:{self.length}_loss:{self.Loss}'
 
-class KD(models.model): ##存用KD的策略
+class KD(models.Model): ##存用RSI的策略
     Sid = models.ForeignKey('Strategy', on_delete=models.CASCADE, primary_key=True)
     #company_id = ForeignKey('Company', on_delete=models.CASCADE)
     Threshold = models.FloatField()
-    KD_Length = models.FloatField()
+    Length = models.FloatField()
     Loss = models.FloatField()
     profit = models.FloatField()
 
@@ -79,11 +79,13 @@ class KD(models.model): ##存用KD的策略
         db_table = 'STOCK"."KD'
 
     def __str__(self):
-        return f'{self.Sid}_thres:{self.Threshold}_len:{self.KD_Length}_loss:{self.Loss}'
+        return f'{self.Sid}_thres:{self.Threshold}_len:{self.length}_loss:{self.Loss}'
 
-class MACD(models.model): ##存用MACD的策略
+class MACD(models.Model): ##存用RSI的策略
     Sid = models.ForeignKey('Strategy',on_delete=models.CASCADE, primary_key=True)
     #company_id = ForeignKey('Company', on_delete=models.CASCADE)
+    Fast_line = models.FloatField()
+    Slow_line = models.FloatField()
     Loss = models.FloatField()
     profit = models.FloatField()
 
@@ -93,9 +95,11 @@ class MACD(models.model): ##存用MACD的策略
     def __str__(self):
         return f'{self.Sid}_loss:{self.Loss}'
 
-class EMA(models.model): ##存用EMA的策略
+class EMA(models.Model): ##存用RSI的策略
     Sid = models.ForeignKey('Strategy',on_delete=models.CASCADE, primary_key=True)
     #company_id = ForeignKey('Company', on_delete=models.CASCADE)
+    Fast_line = models.FloatField()
+    Slow_line = models.FloatField()
     Loss = models.FloatField()
     profit = models.FloatField()
 
@@ -124,9 +128,11 @@ class Deal(models.Model):
     Open_price = models.DecimalField(decimal_places=2)
     Close_price = models.DecimalField(decimal_places=2)
     Volume = models.TextField()
-    KD = models.DecimalField(decimal_places=2)
-    RSI = models.DecimalField(decimal_places=2)
-    MACD = models.DecimalField(decimal_places=2)
+    High = models.FloatField()
+    Low = models.FloatField()
+    #KD = models.DecimalField(decimal_places=2)
+    #RSI = models.DecimalField(decimal_places=2)
+    #MACD = models.DecimalField(decimal_places=2)
     Risk = models.DecimalField(decimal_places=2)
     Week_MA = models.DecimalField(decimal_places=2)
     Month_MA = models.DecimalField(decimal_places=2)
