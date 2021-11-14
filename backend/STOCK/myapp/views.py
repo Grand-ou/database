@@ -5,7 +5,8 @@ from rest_framework.response import Response
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
-from myapp.models import Investor, Company, Strategy, Market, Deal, Foreign_inv
+from myapp.models import Investor, Company, Strategy, Market, Deal, Foreign_inv, RSI, KD, MACD, EMA
+import pandas as pd
 
 
 def signup(request):
