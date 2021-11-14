@@ -68,7 +68,7 @@ def strategecreate(request):
         unit.save()
       return Response("stratege saved", status=status.HTTP_200_OK)   
 def seestratege(request, user = None):
-     unit = Strategy.objects.get(id = user)
+     unit = Strategy.objects.get(Creator_id  = user)
      Sid = unit.sid
      budget = unit.budget
      Company_id = unit.Company_id
