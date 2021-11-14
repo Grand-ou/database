@@ -10,7 +10,7 @@ from django.db.models.base import Model
 from django.db.models.deletion import CASCADE
 from django.db.models.fields.related import ForeignKey
 
-class Investor(models.model):
+class Investor(models.Model):
     Iid = models.AutoField(primary_key=True)
     IName = models.TextField()
     Acct_no = models.TextField(unique=True)
@@ -18,7 +18,7 @@ class Investor(models.model):
     Phone = models.TextField()
 
     class Meta:
-        db_table = 'STOCK"."Investor'
+        db_table = 'Stock"."Investor'
 
     def __str__(self):
         return self.Iid
@@ -32,20 +32,20 @@ class Company(models.Model):
     Industry_type = models.TextField()
 
     class Meta:
-        db_table = 'STOCK"."Company'
+        db_table = 'Stock"."Company'
 
     def __str__(self):
         return self.Cid
 
 class Strategy(models.Model): ##存每個使用者的做了什麼決策
     Sid = models.AutoField(primary_key=True)
-    Budget = models.FlaotField()
+    Budget = models.FloatField()
     #Company_id = models.ForeignKey('Company', on_delete=models.CASCADE)
     Creator_id = models.ForeignKey('Investor', on_delete=models.SET_NULL, null=True)
-    Strategy_type = models.CharField()#RSI:R, MACD:M, KD:K, EMA : E
+    Strategy_type = models.CharField(max_length=1)#RSI:R, MACD:M, KD:K, EMA : E
     
     class Meta:
-        db_table = 'STOCK"."Strategy'
+        db_table = 'Stock"."Strategy'
     
     def __str__(self):
         return f'{self.Sid}_by_{self.Creator_id}_{self.Company_id}with{self.Strategy_type}'
@@ -59,7 +59,7 @@ class RSI(models.Model): ##存用RSI的策略
     Profit = models.FloatField()
 
     class Meta:
-        db_table = 'STOCK"."RSI'
+        db_table = 'Stock"."RSI'
 
     def __str__(self):
         return f'{self.Sid}_thres:{self.Threshold}_len:{self.length}_loss:{self.Loss}'
@@ -73,7 +73,7 @@ class KD(models.Model): ##存用RSI的策略
     Profit = models.FloatField()
 
     class Meta:
-        db_table = 'STOCK"."KD'
+        db_table = 'Stock"."KD'
 
     def __str__(self):
         return f'{self.Sid}_thres:{self.Threshold}_len:{self.length}_loss:{self.Loss}'
@@ -87,7 +87,7 @@ class MACD(models.Model): ##存用RSI的策略
     Profit = models.FloatField()
 
     class Meta:
-        db_table = 'STOCK"."MACD'
+        db_table = 'Stock"."MACD'
 
     def __str__(self):
         return f'{self.Sid}_loss:{self.Loss}'
@@ -101,7 +101,7 @@ class EMA(models.Model): ##存用RSI的策略
     Profit = models.FloatField()
 
     class Meta:
-        db_table = 'STOCK"."EMA'
+        db_table = 'Stock"."EMA'
 
     def __str__(self):
         return f'{self.Sid}_loss:{self.Loss}'
@@ -109,14 +109,14 @@ class EMA(models.Model): ##存用RSI的策略
 class Deal(models.Model):
     Company_id = models.ForeignKey('Company', on_delete=models.CASCADE)
     Ddate = models.DateField()
-    Open_price = models.DecimalField(decimal_places=2)
-    Close_price = models.DecimalField(decimal_places=2)
+    Open_price = models.FloatField
+    Close_price = models.FloatField
     Volume = models.TextField()
     High = models.FloatField()
     Low = models.FloatField()
 
     class Meta:
-        db_table = 'STOCK"."Deal'
+        db_table = 'Stock"."Deal'
         unique_together = (("Company_id", "Ddate"),)
 
     def __str__(self):
