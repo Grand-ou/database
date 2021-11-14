@@ -6,7 +6,8 @@ from Foreign_Investors import ForeignInvestor
 from stock_info import StockInfo
 from stock_ratio import StockRatio
 today = datetime.date.today()  - relativedelta(years=1)
-file_path = 'C:\\Users\\grand\\database\\crawler_data'
+file_path = 'C:\\Users\\ouchu\\database\\crawler_data'
+# file_path = 'C:\\Users\\grand\\database\\crawler_data'
 
 dags_list = [
     ['daily_deal', DailyDeal(today, file_path).download_to_csv],
@@ -23,4 +24,4 @@ for i in dags_list:
         # ForeignInvestor(today, file_path).download_to_csv()
         # StockInfo(today, file_path).download_to_csv()
         # StockRatio(today, file_path).download_to_csv()
-        time.sleep(0.1)
+        time.sleep(1)
