@@ -20,7 +20,7 @@ def signup(request):
             raw_password = form.cleanedgit_data.get('password')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return redirect('home')
+            return Response("register succeed.", status=status.HTTP_400_BAD_REQUEST)
     else:
         form = UserCreationForm()
     return render(request, 'signup.html', {'form': form})
@@ -47,7 +47,7 @@ def login_request(request):
 
 
 def stockinformation(request, informationid = None):
-    unit = Company.objects.get(id = informationid)
+    unit = Company.objects.get(Cid = informationid)
     Cid = unit.Cid
     CName = unit.CName
     COwner = unit.COwner
