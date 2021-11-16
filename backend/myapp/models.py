@@ -11,116 +11,116 @@ from django.db.models.deletion import CASCADE
 from django.db.models.fields.related import ForeignKey
 
 class Investor(models.Model):
-    Iid = models.AutoField(primary_key=True)
-    IName = models.TextField()
-    Acct_no = models.TextField(unique=True)
-    Pwd = models.TextField()
-    Phone = models.TextField()
+    iid = models.AutoField(primary_key=True)
+    iname = models.TextField()
+    acct_no = models.TextField(unique=True)
+    pwd = models.TextField()
+    phone = models.TextField()
 
     class Meta:
-        db_table = 'Stock"."investor'
+        db_table = 'stock"."investor'
 
     def __str__(self):
-        return self.Iid
+        return self.iid
 
 class Company(models.Model):
-    Cid = models.TextField(primary_key=True)
-    CName = models.TextField()
-    COwner = models.TextField()
-    Yield = models.FloatField()
-    PE_Ratio = models.FloatField()
-    Industry_type = models.TextField()
+    cid = models.TextField(primary_key=True)
+    cname = models.TextField()
+    cowner = models.TextField()
+    cyield = models.FloatField()
+    pe_ratio = models.FloatField()
+    industry_type = models.TextField()
 
     class Meta:
-        db_table = 'Stock"."company'
+        db_table = 'stock"."company'
 
     def __str__(self):
-        return self.Cid
+        return self.cid
 
 class Strategy(models.Model): ##存每個使用者的做了什麼決策
-    Sid = models.AutoField(primary_key=True)
-    Budget = models.FloatField()
+    sid = models.AutoField(primary_key=True)
+    budget = models.FloatField()
     #Company_id = models.ForeignKey('Company', on_delete=models.CASCADE)
-    Creator_id = models.ForeignKey('Investor', on_delete=models.SET_NULL, null=True)
-    Strategy_type = models.CharField(max_length=1)#RSI:R, MACD:M, KD:K, EMA : E
+    creator_id = models.ForeignKey('Investor', on_delete=models.SET_NULL, null=True)
+    strategy_type = models.CharField(max_length=1)#RSI:R, MACD:M, KD:K, EMA : E
     
     class Meta:
-        db_table = 'Stock"."strategy'
+        db_table = 'stock"."strategy'
     
     def __str__(self):
-        return f'{self.Sid}_by_{self.Creator_id}_{self.Company_id}with{self.Strategy_type}'
+        return f'{self.sid}_by_{self.creator_id}_with_{self.strategy_type}'
 
 class RSI(models.Model): ##存用RSI的策略
-    Sid = models.ForeignKey('Strategy', on_delete=models.CASCADE, primary_key=True)
-    Company_id = models.TextField()
-    Threshold = models.FloatField()
-    RSI_Length = models.FloatField()
-    Loss = models.FloatField()
-    Profit = models.FloatField()
+    sid = models.ForeignKey('Strategy', on_delete=models.CASCADE, primary_key=True)
+    company_id = models.TextField()
+    threshold = models.FloatField()
+    rsi_length = models.FloatField()
+    loss = models.FloatField()
+    profit = models.FloatField()
 
     class Meta:
-        db_table = 'Stock"."rsi'
+        db_table = 'stock"."rsi'
 
     def __str__(self):
-        return f'{self.Sid}_thres:{self.Threshold}_len:{self.length}_loss:{self.Loss}'
+        return f'{self.sid}_thres:{self.threshold}_len:{self.rsi_length}_loss:{self.loss}'
 
-class KD(models.Model): ##存用RSI的策略
-    Sid = models.ForeignKey('Strategy', on_delete=models.CASCADE, primary_key=True)
-    Company_id = models.TextField()
-    Threshold = models.FloatField()
-    KD_Length = models.FloatField()
-    Loss = models.FloatField()
-    Profit = models.FloatField()
+class KD(models.Model): ##存用KD的策略
+    sid = models.ForeignKey('Strategy', on_delete=models.CASCADE, primary_key=True)
+    company_id = models.TextField()
+    threshold = models.FloatField()
+    kd_length = models.FloatField()
+    loss = models.FloatField()
+    profit = models.FloatField()
 
     class Meta:
-        db_table = 'Stock"."kd'
+        db_table = 'stock"."kd'
 
     def __str__(self):
-        return f'{self.Sid}_thres:{self.Threshold}_len:{self.length}_loss:{self.Loss}'
+        return f'{self.sid}_thres:{self.threshold}_len:{self.kd_length}_loss:{self.loss}'
 
-class MACD(models.Model): ##存用RSI的策略
-    Sid = models.ForeignKey('Strategy',on_delete=models.CASCADE, primary_key=True)
-    Company_id = models.TextField()
-    Fast_line = models.FloatField()
-    Slow_line = models.FloatField()
-    Loss = models.FloatField()
-    Profit = models.FloatField()
+class MACD(models.Model): ##存用MACD的策略
+    sid = models.ForeignKey('Strategy',on_delete=models.CASCADE, primary_key=True)
+    company_id = models.TextField()
+    fast_line = models.FloatField()
+    slow_line = models.FloatField()
+    loss = models.FloatField()
+    profit = models.FloatField()
 
     class Meta:
-        db_table = 'Stock"."macd'
+        db_table = 'stock"."macd'
 
     def __str__(self):
-        return f'{self.Sid}_loss:{self.Loss}'
+        return f'{self.sid}_loss:{self.loss}'
 
-class EMA(models.Model): ##存用RSI的策略
-    Sid = models.ForeignKey('Strategy',on_delete=models.CASCADE, primary_key=True)
-    Company_id = models.TextField()
-    Fast_line = models.FloatField()
-    Slow_line = models.FloatField()
-    Loss = models.FloatField()
-    Profit = models.FloatField()
+class EMA(models.Model): ##存用EMA的策略
+    sid = models.ForeignKey('Strategy',on_delete=models.CASCADE, primary_key=True)
+    company_id = models.TextField()
+    fast_line = models.FloatField()
+    slow_line = models.FloatField()
+    loss = models.FloatField()
+    profit = models.FloatField()
 
     class Meta:
-        db_table = 'Stock"."ema'
+        db_table = 'stock"."ema'
 
     def __str__(self):
-        return f'{self.Sid}_loss:{self.Loss}'
+        return f'{self.sid}_loss:{self.loss}'
 
 class Deal(models.Model):
-    Company_id = models.ForeignKey('Company', on_delete=models.CASCADE)
-    Ddate = models.DateField()
-    Open_price = models.FloatField
-    Close_price = models.FloatField
-    Volume = models.TextField()
-    High = models.FloatField()
-    Low = models.FloatField()
+    company_id = models.ForeignKey('Company', on_delete=models.CASCADE)
+    ddate = models.DateField()
+    open_price = models.FloatField
+    close_price = models.FloatField   
+    volume = models.TextField()
+    high = models.FloatField()
+    low = models.FloatField()
 
     class Meta:
-        db_table = 'Stock"."deal'
-        unique_together = (("Company_id", "Ddate"),)
+        db_table = 'stock"."deal'
+        unique_together = (("company_id", "ddate"),)
 
     def __str__(self):
-        return f'{self.Company_id}_{self.Ddate}_deal'
+        return f'{self.company_id}_{self.ddate}_deal'
 
 #class Market(models.Model):
 #    MDate = models.DateField(primary_key=True)
