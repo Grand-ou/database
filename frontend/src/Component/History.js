@@ -8,45 +8,44 @@ const History = ({ userID }) => {
     const [historyData, setHistoryData] = useState([])
 
     useEffect(() => {
-      axios.post('../history', {     //某個function，傳入userID，傳回歷史資料
-        "UserID": userID
+      axios.post('http://127.0.0.1:8000/api/seestrategy', {     //某個function，傳入userID，傳回歷史資料
+        "user": userID
       })
       .then((res) => { 
         setHistoryData(res.data)
       })
       .catch((error) => { console.log(error) })
     },[])
-    
+    /*Sid = unit.sid
+     budget = unit.budget
+     Company_id = unit.Company_id
+     Creator_id = unit.Creator_id
+     strategy_type = unit. strategy_type */
     const columns = [
       {
-        title: '公司名稱',
-        dataIndex: 'company',
-        key: 'company',
+        title: '策略ID',
+        dataIndex: 'sid',
+        key: 'sid',
+      },
+      {
+        title: '預算',
+        dataIndex: 'budget',
+        key: 'budget',
+      },
+      {
+        title: '公司ID',
+        dataIndex: 'company_id',
+        key: 'company_id',
+      },
+      {
+        title: '創建者ID',
+        dataIndex: 'creator_id',
+        key: 'creator_id',
       },
       {
         title: '使用指標',
         dataIndex: 'indicator',
         key: 'indicator',
-      },
-      {
-        title: '指標數值1',
-        dataIndex: 'num1',
-        key: 'num1',
-      },
-      {
-        title: '指標數值2',
-        dataIndex: 'num2',
-        key: 'num2',
-      },
-      {
-        title: '停利點',
-        dataIndex: 'stop_profit',
-        key: 'stop_profit',
-      },
-      {
-        title: '停損點',
-        dataIndex: 'stop_loss',
-        key: 'stop_loss',
       }
     ];
 
