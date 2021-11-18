@@ -38,24 +38,22 @@ def signup(request):
 
 @api_view(['POST'])
 def login_request(request):
-	if request.method == "POST":
-		form = AuthenticationForm(request, data=request.POST)
-		if form.is_valid():
-			username = form.cleaned_data.get('username')
-			password = form.cleaned_data.get('password')
-			user = authenticate(username=username, password=password)
-			if user is not None:
-				login(request, user)
-				messages.info(request, "You are now logged in as {username}.")
-				return redirect("main:homepage")
-			else:
-				 return Response("Invalid username or password.", status=status.HTTP_400_BAD_REQUEST)
-                
-		else:
-			return Response("Invalid username or password.", status=status.HTTP_400_BAD_REQUEST)
+    if request.method == 'POST':
+        #try:
+            acct_no_ = request.data['acct_no']
+            pwd_ = request.data['pwd']
+        #except KeyError:
+            #return Response("2 parameters are all required.(acct_no,pwd)", status=status.HTTP_400_BAD_REQUEST)
+        
+            if acct_no_ not in [element[0] for element in list(Investor.objects.values_list('acct_no'))]:
+                return Response("Invalid account.", status=status.HTTP_400_BAD_REQUEST)
 
-	form = AuthenticationForm()
-	return Response("you are logged in.", status=status.HTTP_200_OK)
+            login_investor = Investor.objects.get(acct_no=acct_no_)
+
+            if pwd_ != login_investor.pwd:
+                return Response("Invalid password.", status=status.HTTP_400_BAD_REQUEST)
+
+            return Response("Successfully logged in.", status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
