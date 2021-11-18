@@ -26,10 +26,10 @@ const App = () => {
   const [userID, setUserID] = useState('');
   const [password, setPassword] = useState('');
 
-  const [LR, setLR] = useState(true)
+  const [LR, setLR] = useState(false)
   const [login, setLogin] = useState(false)
   const [register, setRegister] = useState(false)
-  const [menuset, setMenuset] = useState(false)
+  const [menuset, setMenuset] = useState(true)
   const [clickDeal, setClickDeal] = useState(false)
   const [clickCreate, setClickCreate] = useState(false)
   const [clickInd, setClickInd] = useState(false)         //選擇指標的確定鍵
