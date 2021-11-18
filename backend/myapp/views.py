@@ -45,17 +45,29 @@ def login_request(request):
 	return Response("you are logged in.", status=status.HTTP_200_OK)
 
 
-
+@api_view(['POST'])
 def stockinformation(request, informationid = None):
-    unit = Company.objects.get(Cid = informationid)
-    Cid = unit.Cid
-    CName = unit.CName
-    COwner = unit.COwner
-    Report = unit.Report
-    Industry_type = unit.Industry_type
-    unit.save()
+    if 'application/json' not in request.content_type:
+        return Response("Content type should be 'application/json'.", status=status.HTTP_400_BAD_REQUEST)
+    
+    if request.method == 'POST':
+        try:
+            informationid = request.data['cid']
+        except KeyError:
+            return Response("1 parameter is required. (cid)", status=status.HTTP_400_BAD_REQUEST)
 
-    return Response("stock information", status=status.HTTP_200_OK)
+        unit = Company.objects.get(cid = informationid)
+        result = []
+        data = {}
+        data['cid'] = unit.cid
+        data['cname'] = unit.cname
+        data['cowner'] = unit.cowner
+        data['cyield'] = unit.cyield
+        data['pe_ratio'] = unit.pe_ratio
+        data['industry_type'] = unit.industry_type
+        result.append(data)
+
+        return Response(result, status=status.HTTP_200_OK)
 
 
 def seestratege(request, user = None):
