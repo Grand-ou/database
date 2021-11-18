@@ -1,3 +1,4 @@
+from django.core.checks.messages import Error
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -11,20 +12,31 @@ import pandas as pd
 import numpy as np
 
 
+@api_view(['POST'])
 def signup(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleanedgit_data.get('password')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
-            return Response("register succeed.", status=status.HTTP_400_BAD_REQUEST)
-    else:
-        form = UserCreationForm()
-    return render(request, 'signup.html', {'form': form})
-    
+        try:
+            iname_ = request.data['iname']
+            acct_no_ = request.data['acct_no']
+            pwd_ = request.data['pwd']
+            phone_ = request.data['phone']
+        except KeyError:
+            return Response("4 parameters are all required.(iname,acct_no,pwd,phone)", status=status.HTTP_400_BAD_REQUEST)
+        
+        if acct_no_ in [element[0] for element in list(Investor.objects.values_list('acct_no'))]:
+            return Response("Account already existed, try another one.", status=status.HTTP_400_BAD_REQUEST)
+ 
+        new_investor = Investor(iname=iname_, acct_no=acct_no_, pwd=pwd_, phone=phone_)
+        if list(Investor.objects.values_list('iid').order_by('iid')) != []:
+            new_investor.iid = list(Investor.objects.values_list('iid').order_by('iid'))[-1][0] + 1
+        else:
+            new_investor.iid = 1
+
+        new_investor.save()
+        return Response("Successfully signed up.", status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
 def login_request(request):
 	if request.method == "POST":
 		form = AuthenticationForm(request, data=request.POST)
@@ -53,11 +65,11 @@ def stockinformation(request):
     
     if request.method == 'POST':
         try:
-            informationid = request.data['cid']
+            informationid = request.data['cname']
         except KeyError:
-            return Response("1 parameter is required. (cid)", status=status.HTTP_400_BAD_REQUEST)
+            return Response("1 parameter is required.(cname)", status=status.HTTP_400_BAD_REQUEST)
 
-        unit = Company.objects.get(cid = informationid)
+        unit = Company.objects.get(cname = informationid)
         result = []
         data = {}
         data['cid'] = unit.cid

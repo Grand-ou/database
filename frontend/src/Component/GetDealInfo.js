@@ -11,7 +11,7 @@ const GetDealInfo = ({ company }) => {
 
     useEffect(() => {
       axios.post('http://127.0.0.1:8000/api/stockinformation', {     //某個function，傳入公司資料，便回傳剩下所需資訊
-        "cname": company
+        "cname": {company}
       })
       .then((res) => { 
         setDealInfo(res.data)
@@ -52,9 +52,10 @@ const GetDealInfo = ({ company }) => {
       }
     ];
 
-      return(
+      return<>
+        <p>{dealInfo['cid']}</p>
         <Table columns={columns} dataSource={dealInfo} />
-      );
+      </>
 
 }
 
