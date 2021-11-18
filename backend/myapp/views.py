@@ -24,6 +24,7 @@ def signup(request):
     else:
         form = UserCreationForm()
     return render(request, 'signup.html', {'form': form})
+    
 def login_request(request):
 	if request.method == "POST":
 		form = AuthenticationForm(request, data=request.POST)
@@ -46,7 +47,7 @@ def login_request(request):
 
 
 @api_view(['POST'])
-def stockinformation(request, informationid = None):
+def stockinformation(request):
     if 'application/json' not in request.content_type:
         return Response("Content type should be 'application/json'.", status=status.HTTP_400_BAD_REQUEST)
     
@@ -70,15 +71,27 @@ def stockinformation(request, informationid = None):
         return Response(result, status=status.HTTP_200_OK)
 
 
-def seestratege(request, user = None):
-     unit = Strategy.objects.get(Creator_id  = user)
-     Sid = unit.sid
-     budget = unit.budget
-     Company_id = unit.Company_id
-     Creator_id = unit.Creator_id
-     strategy_type = unit. strategy_type
-     unit.save()
-     return Response("stratege", status=status.HTTP_200_OK)
+@api_view(['POST'])
+def seestrategy(request):
+    if 'application/json' not in request.content_type:
+        return Response("Content type should be 'application/json'.", status=status.HTTP_400_BAD_REQUEST)
+    
+    if request.method == 'POST':
+        try:
+            iid = request.data['iid']
+        except KeyError:
+            return Response("1 parameter is required. (iid)", status=status.HTTP_400_BAD_REQUEST)
+
+        unit = Strategy.objects.get(creator_id = iid)
+        result = []
+        data = {}
+        data['sid'] = unit.sid
+        data['budget'] = unit.budget
+        data['creator_id'] = unit.creator_id
+        data['strategy_type'] = unit.strategy_type
+        result.append(data)
+
+        return Response(result, status=status.HTTP_200_OK)
 
 
 @require_POST
