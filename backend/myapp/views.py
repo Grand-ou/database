@@ -105,10 +105,10 @@ def rsi_create(request):
         Loss = request.POST.get('Loss')
         Budget = request.POST.get('Budget')
 
-        strategy = Strategy(Budget=Budget, Creator_id=Creator_id, Strategy_type='R')
+        strategy = Strategy(budget=Budget, creator_id=Creator_id, strategy_type='R')
         strategy.save
         Sid = Strategy.objects.latest('Sid')
-        rsi = RSI(Sid=Sid, Company_id=Company_id, Length=Length, Threshold=Threshold, Profit=Profit, Loss=Loss)
+        rsi = RSI(sid=Sid, company_id=Company_id, length=Length, threshold=Threshold, profit=Profit, loss=Loss)
         rsi.save()
         return render(request, 'rsi_create.html', locals())
 
@@ -123,10 +123,10 @@ def macd_create(request):
         Loss = request.POST.get('Loss')
         Budget = request.POST.get('Budget')
 
-        strategy = Strategy(Budget=Budget, Creator_id=Creator_id, Strategy_type='M')
+        strategy = Strategy(budget=Budget, creator_id=Creator_id, strategy_type='M')
         strategy.save
         Sid = Strategy.objects.latest('Sid')
-        macd = MACD(Sid=Sid, Company_id=Company_id, Fast=Fast_line, Slow=Slow_line, Profit=Profit, Loss=Loss)
+        macd = MACD(sid=Sid, company_id=Company_id, fast=Fast_line, slow=Slow_line, profit=Profit, loss=Loss)
         macd.save()
         return render(request, 'macd_create.html', locals())
 
@@ -141,9 +141,9 @@ def Kd_create(request):
         Loss = request.POST.get('Loss')
         Budget = request.POST.get('Budget')
 
-        strategy = Strategy(Budget=Budget, Creator_id=Creator_id, Strategy_type='K')
+        strategy = Strategy(budget=Budget, creator_id=Creator_id, strategy_type='K')
         strategy.save
-        kd = KD(Sid=Sid, Company_id=Company_id, Fast=Fast_line, Slow=Slow_line, Profit=Profit, Loss=Loss)
+        kd = KD(sid=Sid, company_id=Company_id, fast=Fast_line, slow=Slow_line, profit=Profit, loss=Loss)
         kd.save()
         return render(request, 'kd_create.html', locals())
 
@@ -158,10 +158,10 @@ def Ema_create(request):
         Loss = request.POST.get('Loss')
         Budget = request.POST.get('Budget')
 
-        strategy = Strategy(Budget=Budget, Creator_id=Creator_id, Strategy_type='E')
+        strategy = Strategy(budget=Budget, creator_id=Creator_id, strategy_type='E')
         strategy.save
         Sid = Strategy.objects.latest('Sid')
-        ema = EMA(Sid=Sid, Company_id=Company_id, Fast=Fast_line, Slow=Slow_line, Profit=Profit, Loss=Loss)
+        ema = EMA(sid=Sid, company_id=Company_id, fast=Fast_line, slow=Slow_line, profit=Profit, loss=Loss)
         ema.save()
         return render(request, 'ema_create.html', locals())
 
@@ -199,9 +199,9 @@ def back_test_rsi(request):
         Profit = request.POST.get('Profit')
         Loss = request.POST.get('Loss')
 
-        deal = pd.DataFrame(list(Deal.objects.filter(Company_id=Company_id).order_by('Ddate').values(Close_price, Open_price)))
-        Close = deal['Close_price'].squeeze()
-        Open = deal['Open_price'].squeeze()
+        deal = pd.DataFrame(list(Deal.objects.filter(company_id=Company_id).order_by('ddate').values(close_price, open_price)))
+        Close = deal['close_price'].squeeze()
+        Open = deal['open_price'].squeeze()
 
         Chg = Close - Close.shift(1)
         Chg_pos = pd.Series(index=Chg.index, data=Chg[Chg>0])
@@ -248,11 +248,11 @@ def back_test_kd(request):
         Profit = request.POST.get('Profit')
         Loss = request.POST.get('Loss')
 
-        deal = pd.DataFrame(list(Deal.objects.filter(Company_id=Company_id).order_by('Ddate').values()))
-        Close = deal['Close_price'].squeeze()
-        Open = deal['Open_price'].squeeze()
-        High = deal['High'].squeeze()
-        Low = deal['Low'].squeeze()
+        deal = pd.DataFrame(list(Deal.objects.filter(company_id=Company_id).order_by('ddate').values()))
+        Close = deal['close_price'].squeeze()
+        Open = deal['open_price'].squeeze()
+        High = deal['high'].squeeze()
+        Low = deal['low'].squeeze()
 
         rsv_h = High.rolling(period, min_periods=period).max()
         rsv_h = rsv_h.fillna(0)
@@ -299,9 +299,9 @@ def back_test_macd(request):
         Profit = request.POST.get('Profit')
         Loss = request.POST.get('Loss')
 
-        deal = pd.DataFrame(list(Deal.objects.filter(Company_id=Company_id).order_by('Ddate').values(Close_price, Open_price)))
-        Close = deal['Close_price'].squeeze()
-        Open = deal['Open_price'].squeeze()
+        deal = pd.DataFrame(list(Deal.objects.filter(company_id=Company_id).order_by('ddate').values(close_price, open_price)))
+        Close = deal['close_price'].squeeze()
+        Open = deal['open_price'].squeeze()
 
         ema_1 = Close.ewm(span=12, adjust=False).mean()
         ema_2 = Close.ewm(span=26, adjust=False).mean()
@@ -339,9 +339,9 @@ def back_test_ema(request):
         Profit = request.POST.get('Profit')
         Loss = request.POST.get('Loss')
 
-        deal = pd.DataFrame(list(Deal.objects.filter(Company_id=Company_id).order_by('Ddate').values(Close_price, Open_price)))
-        Close = deal['Close_price'].squeeze()
-        Open = deal['Open_price'].squeeze()
+        deal = pd.DataFrame(list(Deal.objects.filter(company_id=Company_id).order_by('ddate').values(close_price, open_price)))
+        Close = deal['close_price'].squeeze()
+        Open = deal['open_price'].squeeze()
 
         ema_1 = Close.ewm(span=12, adjust=False).mean()
         ema_2 = Close.ewm(span=26, adjust=False).mean()

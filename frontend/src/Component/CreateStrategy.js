@@ -1,26 +1,30 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import CreateStrategyEMA from './CreateStrategyEMA';
+import CreateStrategyRSI from './CreateStrategyRSI';
+import CreateStrategyMACD from './CreateStrategyMACD';
+import CreateStrategyKD from './CreateStrategyKD';
 
-const CreateStrategy = ({ company, indicator, num1, num2, stopProfit, stopLoss }) => {
+
+const CreateStrategy = ({ company, indicator, num1, num2, stopProfit, stopLoss, userID }) => {
 
   const [strategy, setStrategy] = useState([])
 
-  useEffect(() => {
-    axios.post('../strategy', {         //某種function，傳入各種數值進入策略的資料庫中
-      "Company": company,
-      "Indicator": indicator,
-      "Num1": num1,
-      "Num2": num2,
-      "StopProfit": stopProfit, 
-      "StopLoss": stopLoss
-    })
-    .then((res) => { 
-      setStrategy(res.data)
-    })
-    .catch((error) => { console.log(error) })
-  },[])
-
   return <>
+  <script>
+    if ({indicator} == 'RSI'){
+      CreateStrategyRSI({ company, num1, num2, stopProfit, stopLoss, userID })
+    }
+    else if ({indicator} == 'MACD'){
+      CreateStrategyMACD({ company, num1, num2, stopProfit, stopLoss, userID })
+    }
+    else if ({indicator} == 'KD'){
+      CreateStrategyKD({ company, num1, num2, stopProfit, stopLoss, userID })
+    }
+    else{
+      CreateStrategyEMA({ company, num1, num2, stopProfit, stopLoss, userID })
+    }
+  </script>
   </>
 }
 

@@ -1,26 +1,29 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import Backtest_RSI from './Backtest_RSI';
+import Backtest_MACD from './Backtest_MACD';
+import Backtest_KD from './Backtest_KD';
+import Backtest_EMA from './Backtest_EMA';
 
 const Backtest = ({ company, indicator, num1, num2, stopProfit, stopLoss }) => {
 
   const [backtest, setBacktest] = useState([])
 
-  useEffect(() => {
-    axios.post('../backtest', {         //某種function，傳入各種數值並回傳回測分數
-      "Company": company,
-      "Indicator": indicator,
-      "Num1": num1,
-      "Num2": num2,
-      "StopProfit": stopProfit, 
-      "StopLoss": stopLoss
-    })
-    .then((res) => { 
-      setBacktest(res.data)
-    })
-    .catch((error) => { console.log(error) })
-  },[])
-
   return <>
+      <script>
+        if ({indicator} == 'RSI'){
+          Backtest_RSI({ company, num1, num2, stopProfit, stopLoss }, setBacktest={setBacktest} )
+        }
+        else if ({indicator} == 'MACD'){
+          Backtest_MACD({ company, num1, num2, stopProfit, stopLoss }, setBacktest={setBacktest})
+        }
+        else if ({indicator} == 'KD'){
+          Backtest_KD({ company, num1, num2, stopProfit, stopLoss }, setBacktest={setBacktest})
+        }
+        else{
+          Backtest_EMA({ company, num1, num2, stopProfit, stopLoss }, setBacktest={setBacktest})
+        }
+      </script>
       <h3>回測分數: </h3>
       <p>{backtest}</p>
   </>
