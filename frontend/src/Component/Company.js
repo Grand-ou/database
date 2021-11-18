@@ -1,21 +1,21 @@
 import { Select, Space } from 'antd';
 import 'antd/dist/antd.css';
-//import axios from 'axios';
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 const { Option } = Select;
 
 const Companies = ({ setCompany, setClickCheck }) => {
 
-    const [target, setTarget] = useState([])
+    const [companies, setCompanies] = useState([])
 
-    /*useEffect(() => {
+    useEffect(() => {
         axios.get('http://127.0.0.1:8000/api/companies')
         .then((res) => { 
           setCompanies(res.data)
         })
         .catch((error) => { console.log(error) })
-    },[])*/
+    },[])
 
     const onChange = (value) => {
         console.log(`selected ${value}`);
@@ -38,8 +38,9 @@ const Companies = ({ setCompany, setClickCheck }) => {
                     option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                 }
                 >
-                <Option value="台積電">台積電</Option>
-                <Option value="元大">元大</Option>
+                {companies.map((company)=>{
+                    return <Option value={company['company_name']}>{company['company_name']}</Option>
+                })}
                 </Select>
             </Space>
         </div>
