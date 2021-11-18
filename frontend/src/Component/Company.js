@@ -38,9 +38,11 @@ const Companies = ({ setCompany, setClickCheck }) => {
                     option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                 }
                 >
-                {companies.map((company)=>{
-                    return <Option value={company['company_name']}>{company['company_name']}</Option>
-                })}
+                <Option value="台積電">台積電</Option>
+                <Option value="鴻海">鴻海</Option>
+                <Option value="聯發科">聯發科</Option>
+                <Option value="台塑化">台塑化</Option>
+                <Option value="中華電">中華電</Option>
                 </Select>
             </Space>
         </div>
