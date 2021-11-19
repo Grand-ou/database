@@ -55,7 +55,7 @@ def login_request(request):
             return Response("Invalid password.", status=status.HTTP_400_BAD_REQUEST)
 
         now_login_iid = login_investor.iid
-        return Response(login_investor.iname + "successfully logged in.", status=status.HTTP_200_OK)
+        return Response("iid: "+ str(now_login_iid) + " successfully logged in.", status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
@@ -92,54 +92,69 @@ def seestrategy(request):
         result = []
         for unit in Strategy.objects.values().filter(creator_id = now_login_iid):
             data = {}
-            data['sid'] = unit.sid
-            data['budget'] = unit.budget
-            data['creator_id'] = unit.creator_id
-            data['strategy_type'] = unit.strategy_type
+            data['sid'] = unit['sid']
+            data['budget'] = unit['budget']
+            data['creator_id'] = unit['creator_id']
+            data['strategy_type'] = unit['strategy_type']
             result.append(data)
 
         return Response(result, status=status.HTTP_200_OK)
 
 
-@require_POST
+@api_view(['POST'])
 def rsi_create(request):
     if request.method == "POST":
+        if now_login_iid <= 0:
+            return Response("Not logged in.", status=status.HTTP_400_BAD_REQUEST)
+            
         try:
             Creator_id = now_login_iid
-            Company_id = request.POST.get('Company_id')
-            Length = request.POST.get('Length')
-            Threshold = request.POST.get('Threshold')
-            Profit = request.POST.get('Profit')
-            Loss = request.POST.get('Loss')
-            Budget = request.POST.get('Budget')
+            Company_id = request.data['Company_id']
+            Length = request.data['Length']
+            Threshold = request.data['Threshold']
+            Profit = request.data['Profit']
+            Loss = request.data['Loss']
+            Budget = request.data['Budget']
         except KeyError:
             return Response("6 parameters are all required.(Company_id, Length, Threshold, Profit, Loss, Budget)", status=status.HTTP_400_BAD_REQUEST)
-        
-        
-        strategy = Strategy(budget=Budget, creator_id=Creator_id, strategy_type='R')
-        strategy.save()
-        Sid = Strategy.objects.latest('Sid')
-        rsi = RSI(sid=Sid, company_id=Company_id, length=Length, threshold=Threshold, profit=Profit, loss=Loss)
-        rsi.save()
-        return Response("RSI strategy successfully created.")
 
-@require_POST
+        strategy = Strategy(budget=Budget, creator_id=Investor.objects.get(iid=Creator_id), strategy_type='R')
+        if list(Strategy.objects.values_list('sid').order_by('sid')) != []:
+            strategy.sid = list(Strategy.objects.values_list('sid').order_by('sid'))[-1][0] + 1
+        else:
+            strategy.sid = 1
+        strategy.save()
+
+        Sid = Strategy.objects.latest('sid')
+        rsi = RSI(sid=Sid, company_id=Company_id, rsi_length=Length, threshold=Threshold, profit=Profit, loss=Loss)
+        rsi.save()
+        return Response("RSI strategy successfully created.", status=status.HTTP_200_OK)
+
+@api_view(['POST'])
 def macd_create(request):
     if request.method == "POST":
+        if now_login_iid <= 0:
+            return Response("Not logged in.", status=status.HTTP_400_BAD_REQUEST)
+
         try:
             Creator_id = now_login_iid
-            Company_id = request.POST.get('Company_id')
-            Fast_line = request.POST.get('Fast_line')
-            Slow_line = request.POST.get('Slow_line')
-            Profit = request.POST.get('Profit')
-            Loss = request.POST.get('Loss')
-            Budget = request.POST.get('Budget')
+            Company_id = request.data['Company_id']
+            Fast_line = request.data['Fast_line']
+            Slow_line = request.data['Slow_line']
+            Profit = request.data['Profit']
+            Loss = request.data['Loss']
+            Budget = request.data['Budget']
         except KeyError:
             return Response("6 parameters are all required.(Company_id, Fast_line, Low_line, Profit, Loss, Budget)", status=status.HTTP_400_BAD_REQUEST)    
 
         strategy = Strategy(budget=Budget, creator_id=Creator_id, strategy_type='M')
+        if list(Strategy.objects.values_list('sid').order_by('sid')) != []:
+            strategy.sid = list(Strategy.objects.values_list('sid').order_by('sid'))[-1][0] + 1
+        else:
+            strategy.sid = 1
         strategy.save()
-        Sid = Strategy.objects.latest('Sid')
+
+        Sid = Strategy.objects.latest('sid')
         macd = MACD(sid=Sid, company_id=Company_id, fast_line=Fast_line, slow_line=Slow_line, profit=Profit, loss=Loss)
         macd.save()
         return Response("MACD strategy successfully created.")
@@ -147,19 +162,28 @@ def macd_create(request):
 @require_POST
 def Kd_create(request):
     if request.method == "POST":
+        if now_login_iid <= 0:
+            return Response("Not logged in.", status=status.HTTP_400_BAD_REQUEST)
+
         try:
             Creator_id = now_login_iid
-            Company_id = request.POST.get('Company_id')
-            Kd_Length = request.POST.get('Length')
-            Threshold = request.POST.get('Threshold')
-            Profit = request.POST.get('Profit')
-            Loss = request.POST.get('Loss')
-            Budget = request.POST.get('Budget')
+            Company_id = request.data['Company_id']
+            Kd_Length = request.data['Length']
+            Threshold = request.data['Threshold']
+            Profit = request.data['Profit']
+            Loss = request.data['Loss']
+            Budget = request.data['Budget']
         except KeyError:
             return Response("6 parameters are all required.(Company_id, Kd_Length, Threshold, Profit, Loss, Budget)", status=status.HTTP_400_BAD_REQUEST)
         
         strategy = Strategy(budget=Budget, creator_id=Creator_id, strategy_type='K')
+        if list(Strategy.objects.values_list('sid').order_by('sid')) != []:
+            strategy.sid = list(Strategy.objects.values_list('sid').order_by('sid'))[-1][0] + 1
+        else:
+            strategy.sid = 1
         strategy.save
+
+        Sid = Strategy.objects.latest('sid')
         kd = KD(sid=Sid, company_id=Company_id, kd_length=Kd_Length, threshold=Threshold, profit=Profit, loss=Loss)
         kd.save()
         return Response("KD strategy successfully created.")
@@ -167,6 +191,9 @@ def Kd_create(request):
 @require_POST
 def Ema_create(request):
     if request.method == "POST":
+        if now_login_iid <= 0:
+            return Response("Not logged in.", status=status.HTTP_400_BAD_REQUEST)
+
         try:
             Creator_id = now_login_iid
             Company_id = request.POST.get('Company_id')
@@ -177,9 +204,15 @@ def Ema_create(request):
             Budget = request.POST.get('Budget')
         except KeyError:
             return Response("6 parameters are all required.(Company_id, Fast_line, Slow_line, Profit, Loss, Budget)", status=status.HTTP_400_BAD_REQUEST)
+        
         strategy = Strategy(budget=Budget, creator_id=Creator_id, strategy_type='E')
+        if list(Strategy.objects.values_list('sid').order_by('sid')) != []:
+            strategy.sid = list(Strategy.objects.values_list('sid').order_by('sid'))[-1][0] + 1
+        else:
+            strategy.sid = 1
         strategy.save()
-        Sid = Strategy.objects.latest('Sid')
+        
+        Sid = Strategy.objects.latest('sid')
         ema = EMA(sid=Sid, company_id=Company_id, fast_line=Fast_line, slow_line=Slow_line, profit=Profit, loss=Loss)
         ema.save()
         return Response("Ema strategy successfully created.")
