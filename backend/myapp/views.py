@@ -322,8 +322,8 @@ def back_test_macd(request):
         Close = deal['close_price'].squeeze()
         Open = deal['open_price'].squeeze()
 
-        ema_1 = Close.ewm(span=12, adjust=False).mean()
-        ema_2 = Close.ewm(span=26, adjust=False).mean()
+        ema_1 = Close.ewm(span=Fast_line, adjust=False).mean()
+        ema_2 = Close.ewm(span=Slow_line, adjust=False).mean()
         f = ema_1 - ema_2
         macd = f.ewm(span=9, adjust=False).mean()
         
@@ -362,8 +362,8 @@ def back_test_ema(request):
         Close = deal['close_price'].squeeze()
         Open = deal['open_price'].squeeze()
 
-        ema_1 = Close.ewm(span=12, adjust=False).mean()
-        ema_2 = Close.ewm(span=26, adjust=False).mean()
+        ema_1 = Close.ewm(span=Fast_line, adjust=False).mean()
+        ema_2 = Close.ewm(span=Slow_line, adjust=False).mean()
         f = ema_1 - ema_2
 
         sig = []
