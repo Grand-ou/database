@@ -61,7 +61,7 @@ def login_request(request):
 @api_view(['POST'])
 def stockinformation(request):
     if 'application/json' not in request.content_type:
-        return Response("Content type should be 'application/json'.", status=status.HTTP_400_BAD_REQUEST)
+        return Response("Content type should be 'application/json'.", status=status.HTTP_406_NOT_ACCEPTABLE)
     
     if request.method == 'POST':
         try:
