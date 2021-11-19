@@ -104,73 +104,85 @@ def seestrategy(request):
 @require_POST
 def rsi_create(request):
     if request.method == "POST":
-        Creator_id = request.POST.get('Creator_id')
-        Company_id = request.POST.get('Company_id')
-        Length = request.POST.get('Length')
-        Threshold = request.POST.get('Threshold')
-        Profit = request.POST.get('Profit')
-        Loss = request.POST.get('Loss')
-        Budget = request.POST.get('Budget')
-
+        try:
+            Creator_id = now_login_iid
+            Company_id = request.POST.get('Company_id')
+            Length = request.POST.get('Length')
+            Threshold = request.POST.get('Threshold')
+            Profit = request.POST.get('Profit')
+            Loss = request.POST.get('Loss')
+            Budget = request.POST.get('Budget')
+        except KeyError:
+            return Response("6 parameters are all required.(Company_id, Length, Threshold, Profit, Loss, Budget)", status=status.HTTP_400_BAD_REQUEST)
+        
+        
         strategy = Strategy(budget=Budget, creator_id=Creator_id, strategy_type='R')
-        strategy.save
+        strategy.save()
         Sid = Strategy.objects.latest('Sid')
         rsi = RSI(sid=Sid, company_id=Company_id, length=Length, threshold=Threshold, profit=Profit, loss=Loss)
         rsi.save()
-        return render(request, 'rsi_create.html', locals())
+        return Response("RSI strategy successfully created.")
 
 @require_POST
 def macd_create(request):
     if request.method == "POST":
-        Creator_id = request.POST.get('Creator_id')
-        Company_id = request.POST.get('Company_id')
-        Fast_line = request.POST.get('Fast_line')
-        Slow_line = request.POST.get('Slow_line')
-        Profit = request.POST.get('Profit')
-        Loss = request.POST.get('Loss')
-        Budget = request.POST.get('Budget')
+        try:
+            Creator_id = now_login_iid
+            Company_id = request.POST.get('Company_id')
+            Fast_line = request.POST.get('Fast_line')
+            Slow_line = request.POST.get('Slow_line')
+            Profit = request.POST.get('Profit')
+            Loss = request.POST.get('Loss')
+            Budget = request.POST.get('Budget')
+        except KeyError:
+            return Response("6 parameters are all required.(Company_id, Fast_line, Low_line, Profit, Loss, Budget)", status=status.HTTP_400_BAD_REQUEST)    
 
         strategy = Strategy(budget=Budget, creator_id=Creator_id, strategy_type='M')
-        strategy.save
+        strategy.save()
         Sid = Strategy.objects.latest('Sid')
-        macd = MACD(sid=Sid, company_id=Company_id, fast=Fast_line, slow=Slow_line, profit=Profit, loss=Loss)
+        macd = MACD(sid=Sid, company_id=Company_id, fast_line=Fast_line, slow_line=Slow_line, profit=Profit, loss=Loss)
         macd.save()
-        return render(request, 'macd_create.html', locals())
+        return Response("MACD strategy successfully created.")
 
 @require_POST
 def Kd_create(request):
     if request.method == "POST":
-        Creator_id = request.POST.get('Creator_id')
-        Company_id = request.POST.get('Company_id')
-        Length = request.POST.get('Length')
-        Threshold = request.POST.get('Threshold')
-        Profit = request.POST.get('Profit')
-        Loss = request.POST.get('Loss')
-        Budget = request.POST.get('Budget')
-
+        try:
+            Creator_id = now_login_iid
+            Company_id = request.POST.get('Company_id')
+            Kd_Length = request.POST.get('Length')
+            Threshold = request.POST.get('Threshold')
+            Profit = request.POST.get('Profit')
+            Loss = request.POST.get('Loss')
+            Budget = request.POST.get('Budget')
+        except KeyError:
+            return Response("6 parameters are all required.(Company_id, Kd_Length, Threshold, Profit, Loss, Budget)", status=status.HTTP_400_BAD_REQUEST)
+        
         strategy = Strategy(budget=Budget, creator_id=Creator_id, strategy_type='K')
         strategy.save
-        kd = KD(sid=Sid, company_id=Company_id, fast=Fast_line, slow=Slow_line, profit=Profit, loss=Loss)
+        kd = KD(sid=Sid, company_id=Company_id, kd_length=Kd_Length, threshold=Threshold, profit=Profit, loss=Loss)
         kd.save()
-        return render(request, 'kd_create.html', locals())
+        return Response("KD strategy successfully created.")
 
 @require_POST
 def Ema_create(request):
     if request.method == "POST":
-        Creator_id = request.POST.get('Creator_id')
-        Company_id = request.POST.get('Company_id')
-        Fast_line = request.POST.get('Fast_line')
-        Slow_line = request.POST.get('Slow_line')
-        Profit = request.POST.get('Profit')
-        Loss = request.POST.get('Loss')
-        Budget = request.POST.get('Budget')
-
+        try:
+            Creator_id = now_login_iid
+            Company_id = request.POST.get('Company_id')
+            Fast_line = request.POST.get('Fast_line')
+            Slow_line = request.POST.get('Slow_line')
+            Profit = request.POST.get('Profit')
+            Loss = request.POST.get('Loss')
+            Budget = request.POST.get('Budget')
+        except KeyError:
+            return Response("6 parameters are all required.(Company_id, Fast_line, Slow_line, Profit, Loss, Budget)", status=status.HTTP_400_BAD_REQUEST)
         strategy = Strategy(budget=Budget, creator_id=Creator_id, strategy_type='E')
-        strategy.save
+        strategy.save()
         Sid = Strategy.objects.latest('Sid')
-        ema = EMA(sid=Sid, company_id=Company_id, fast=Fast_line, slow=Slow_line, profit=Profit, loss=Loss)
+        ema = EMA(sid=Sid, company_id=Company_id, fast_line=Fast_line, slow_line=Slow_line, profit=Profit, loss=Loss)
         ema.save()
-        return render(request, 'ema_create.html', locals())
+        return Response("Ema strategy successfully created.")
 
 
 def test(sig, Open):
@@ -244,7 +256,7 @@ def back_test_rsi(request):
 
         score = test(rsi_sig, Open)
 
-    return render(request, 'back_test_rsi.html', locals())
+    return Response("RSI back test succeed.")
 
 @require_POST
 def back_test_kd(request):
@@ -294,7 +306,7 @@ def back_test_kd(request):
 
         score = test(kd_sig, Open)
 
-    return render(request, 'back_test_kd.html', locals())
+    return Response("KD back test succeed.")
 
 @require_POST
 def back_test_macd(request):
@@ -310,8 +322,8 @@ def back_test_macd(request):
         Close = deal['close_price'].squeeze()
         Open = deal['open_price'].squeeze()
 
-        ema_1 = Close.ewm(span=12, adjust=False).mean()
-        ema_2 = Close.ewm(span=26, adjust=False).mean()
+        ema_1 = Close.ewm(span=Fast_line, adjust=False).mean()
+        ema_2 = Close.ewm(span=Slow_line, adjust=False).mean()
         f = ema_1 - ema_2
         macd = f.ewm(span=9, adjust=False).mean()
         
@@ -334,7 +346,7 @@ def back_test_macd(request):
 
         score = test(macd_sig, Open)
 
-    return render(request, 'back_test_macd.html', locals())
+    return Response("MACD back test succeed.")
 
 @require_POST
 def back_test_ema(request):
@@ -350,8 +362,8 @@ def back_test_ema(request):
         Close = deal['close_price'].squeeze()
         Open = deal['open_price'].squeeze()
 
-        ema_1 = Close.ewm(span=12, adjust=False).mean()
-        ema_2 = Close.ewm(span=26, adjust=False).mean()
+        ema_1 = Close.ewm(span=Fast_line, adjust=False).mean()
+        ema_2 = Close.ewm(span=Slow_line, adjust=False).mean()
         f = ema_1 - ema_2
 
         sig = []
@@ -371,5 +383,5 @@ def back_test_ema(request):
 
         score = test(ema_sig, Open)
 
-    return render(request, 'back_test_macd.html', locals())
+    return Response("EMA back test succeed.")
 
