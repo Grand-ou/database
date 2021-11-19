@@ -11,7 +11,7 @@ const GetDealInfo = ({ company }) => {
 
     useEffect(() => {
       axios.post('http://127.0.0.1:8000/api/stockinformation', {     //某個function，傳入公司資料，便回傳剩下所需資訊
-        "cname": {company}
+        "cname": company
       })
       .then((res) => { 
         setDealInfo(res.data)
@@ -27,35 +27,34 @@ const GetDealInfo = ({ company }) => {
       },
       {
         title: 'CompanyName',
-        dataIndex: 'companyname',
-        key: 'companyname',
+        dataIndex: 'cname',
+        key: 'cname',
       },
       {
         title: 'Owner',
-        dataIndex: 'owner',
-        key: 'owner',
-      },
-      {
-        title: '本益比',
-        dataIndex: 'roe',
-        key: 'roe',
+        dataIndex: 'cowner',
+        key: 'cowner',
       },
       {
         title: '殖利率',
-        dataIndex: 'dividend_yield',
-        key: 'dividend_yield',
+        dataIndex: 'cyield',
+        key: 'cyield',
+      },
+      {
+        title: '本益比',
+        dataIndex: 'pe_ratio',
+        key: 'pe_ratio',
       },
       {
         title: 'Type',
-        dataIndex: 'type',
-        key: 'type',
+        dataIndex: 'industry_type',
+        key: 'industry_type',
       }
     ];
 
-      return<>
-        <p>{dealInfo['cid']}</p>
+      return(
         <Table columns={columns} dataSource={dealInfo} />
-      </>
+      );
 
 }
 
