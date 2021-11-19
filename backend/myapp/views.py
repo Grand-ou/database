@@ -35,25 +35,27 @@ def signup(request):
         new_investor.save()
         return Response("Successfully signed up.", status=status.HTTP_200_OK)
 
-
+now_login_iid = -1
 @api_view(['POST'])
 def login_request(request):
+    global now_login_iid
     if request.method == 'POST':
-        #try:
+        try:
             acct_no_ = request.data['acct_no']
             pwd_ = request.data['pwd']
-        #except KeyError:
-            #return Response("2 parameters are all required.(acct_no,pwd)", status=status.HTTP_400_BAD_REQUEST)
+        except KeyError:
+            return Response("2 parameters are all required.(acct_no,pwd)", status=status.HTTP_400_BAD_REQUEST)
         
-            if acct_no_ not in [element[0] for element in list(Investor.objects.values_list('acct_no'))]:
-                return Response("Invalid account.", status=status.HTTP_400_BAD_REQUEST)
+        if acct_no_ not in [element[0] for element in list(Investor.objects.values_list('acct_no'))]:
+            return Response("Invalid account.", status=status.HTTP_400_BAD_REQUEST)
 
-            login_investor = Investor.objects.get(acct_no=acct_no_)
+        login_investor = Investor.objects.get(acct_no=acct_no_)
 
-            if pwd_ != login_investor.pwd:
-                return Response("Invalid password.", status=status.HTTP_400_BAD_REQUEST)
+        if pwd_ != login_investor.pwd:
+            return Response("Invalid password.", status=status.HTTP_400_BAD_REQUEST)
 
-            return Response("Successfully logged in.", status=status.HTTP_200_OK)
+        now_login_iid = login_investor.iid
+        return Response(login_investor.iname + "successfully logged in.", status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
@@ -81,25 +83,20 @@ def stockinformation(request):
         return Response(result, status=status.HTTP_200_OK)
 
 
-@api_view(['POST'])
+@api_view(['GET'])
 def seestrategy(request):
-    if 'application/json' not in request.content_type:
-        return Response("Content type should be 'application/json'.", status=status.HTTP_400_BAD_REQUEST)
-    
-    if request.method == 'POST':
-        try:
-            iid = request.data['iid']
-        except KeyError:
-            return Response("1 parameter is required. (iid)", status=status.HTTP_400_BAD_REQUEST)
+    if request.method == 'GET':
+        if now_login_iid <= 0:
+            return Response("Not logged in.", status=status.HTTP_400_BAD_REQUEST)
 
-        unit = Strategy.objects.get(creator_id = iid)
         result = []
-        data = {}
-        data['sid'] = unit.sid
-        data['budget'] = unit.budget
-        data['creator_id'] = unit.creator_id
-        data['strategy_type'] = unit.strategy_type
-        result.append(data)
+        for unit in Strategy.objects.values().filter(creator_id = now_login_iid):
+            data = {}
+            data['sid'] = unit.sid
+            data['budget'] = unit.budget
+            data['creator_id'] = unit.creator_id
+            data['strategy_type'] = unit.strategy_type
+            result.append(data)
 
         return Response(result, status=status.HTTP_200_OK)
 
