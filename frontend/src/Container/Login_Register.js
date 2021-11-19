@@ -1,15 +1,15 @@
 import '../App.css'
 import { Space, Button } from 'antd'
-import User from '../Component/User'
+import User from '../Component/User_login'
 
-const Login_Register = ( { setUserID, setPassword, setLogin, setRegister, setLR } ) => {
+const Login_Register = ( { setUserID, setPassword, setLogin, setRegisterPage, setLR } ) => {
 
     return (
-        <div class='login_register'>
+        <div className='login_register'>
             <h1>登入與註冊</h1>
             <User setUserID={setUserID} setPassword={setPassword} />
             <Button onClick={()=>{setLogin(true); setLR(false);}}>登入</Button>
-            <Button onClick={()=>{setRegister(true); setLR(false)}}>註冊</Button>
+            <Button onClick={()=>{setRegisterPage(true); setLR(false)}}>註冊</Button>
         </div>
     )
 
