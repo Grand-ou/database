@@ -12,6 +12,7 @@ import Login_Register from './Container/Login_Register';
 import Login_Succeed from './Container/LoginSucceed';
 import Register_Succeed from './Container/RegisterSucceed';
 import Header from './Container/Header'
+import RegisterPage from './Container/RegisterPage'
 
 const App = () => {
 
@@ -25,11 +26,14 @@ const App = () => {
   const [str2, setStr2] = useState('設定閾值(10~40):');
   const [userID, setUserID] = useState('');
   const [password, setPassword] = useState('');
+  const [phone, setPhone] = useState('');
+  const [name, setName] = useState('');
 
-  const [LR, setLR] = useState(false)
+  const [LR, setLR] = useState(true)
   const [login, setLogin] = useState(false)
+  const [registerPage, setRegisterPage] = useState(false)
   const [register, setRegister] = useState(false)
-  const [menuset, setMenuset] = useState(true)
+  const [menuset, setMenuset] = useState(false)
   const [clickDeal, setClickDeal] = useState(false)
   const [clickCreate, setClickCreate] = useState(false)
   const [clickInd, setClickInd] = useState(false)         //選擇指標的確定鍵
@@ -42,13 +46,35 @@ const App = () => {
   return <>
     <Header />
     {LR?
-    <Login_Register setUserID={setUserID} setPassword={setPassword} setLogin={setLogin} setRegister={setRegister} setLR={setLR} />
+    <Login_Register setUserID={setUserID} 
+                    setPassword={setPassword} 
+                    setLogin={setLogin} 
+                    setRegisterPage={setRegisterPage} 
+                    setLR={setLR} />
     :<></>}
     {login?
-    <Login_Succeed userID={userID} password={password} setLogin={setLogin} setMenuset={setMenuset} setLR={setLR} />
+    <Login_Succeed userID={userID} 
+                   password={password} 
+                   name={name} 
+                   phone={phone} 
+                   setRegisterPage={setRegisterPage} 
+                   setMenuset={setMenuset} 
+                   setRegister={setRegister} />
     :<></>}
+    {registerPage?
+    <RegisterPage setUserID={setUserID} 
+                  setPassword={setPassword} 
+                  setName={setName} 
+                  setPhone={setPhone} 
+                  setRegister={setRegister} 
+                  setRegisterPage={setRegisterPage}
+                  setLR={setLR} />:<></>}
     {register?
-    <Register_Succeed userID={userID} password={password} setRegister={setRegister} setMenuset={setMenuset} setLR={setLR} />
+    <Register_Succeed userID={userID} 
+                      password={password} 
+                      setRegister={setRegister} 
+                      setMenuset={setMenuset} 
+                      setRegisterPage={setRegisterPage} />
     :<></>}
     {menuset?<MenuSet setClickDeal={setClickDeal} setClickCreate={setClickCreate} setMenuset={setMenuset} />
     :<></>}
