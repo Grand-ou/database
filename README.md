@@ -9,9 +9,11 @@
 - 張庭庸    網頁功能設計/後端撰寫
 - 蔡宇倫    前端撰寫/前後端連接/前後端連接
 ## Database
-- 下載 [PostgreSQL 13](https://www.postgresql.org/download/) 以及 [pdAdmin](https://www.pgadmin.org/) (GUI介面)
+- 下載 [PostgreSQL 13](https://www.postgresql.org/download/) 以及 [pgAdmin](https://www.pgadmin.org/) (GUI介面)
 - db 資料夾裡有2個 sql 檔案
-* [匯入資料的方法]
+* 在 pgAdmin 登入後創建一個名為 Stock 的資料庫
+* 右鍵點擊資料庫 > 選擇 Restore
+* 選擇位於 db 資料夾的 STOCK_custom.sql 檔案進行 Restore
 
 ### API
 - **API說明文件**:https://sincere-citipati-3cc.notion.site/API-ed180f7c09a945fdb7c6b7699acf76e0
@@ -27,15 +29,15 @@
 
     >POST /create/(rsi, macd, kd, or ema 其中一個)
 
-    >post /backtest/(rsi, macd, kd, or ema 其中一個)
+    >POST /backtest/(rsi, macd, kd, or ema 其中一個)
 ## backend-使用mac做示範
 
 - 確定電腦有安裝 `python3` 以及完成上述資料匯入資料庫的指令後打開終端機執行以下指令：
 ```shell
 # for mac
 cd backend
-python3 -m venv tutorial-env #建立虛擬環境 #-m: module-name
-source tutorial-env/bin/activate #啟動虛擬環境 for mac
+python3 -m venv stock-env #建立虛擬環境 #-m: module-name
+source stock-env/bin/activate #啟動虛擬環境 for mac
 ```
 - 下載所需套件
 ```shell
@@ -53,7 +55,7 @@ cp .env.example .env
 SECRET_KEY={aaaaaaaaa}
 DEBUG=True
 ALLOWED_HOSTS=.localhost,127.0.0.1
-DATABASE_URL={postgres://USER:PASSWORD@HOST:PORT/NAME}
+DATABASE_URL={postgres://USER:PASSWORD@127.0.0.1:5432/Stock}
 ```
 - 最後，同步資料庫並啟動 backend server。
 ```shell
@@ -61,7 +63,7 @@ python manage.py migrate
 python manage.py runserver
 ```
 
-- 用瀏覽器打開  http://127.0.0.1:8000/api/stations ，如果有順利拿到資源表示後端起成功。
+- 用瀏覽器打開  http://127.0.0.1:8000/api/stockinformation ，輸入 {"cname": "台積電"} 後點擊 POST，如果有順利拿到資源表示後端起成功。
 ![](img/api.png)
 
 ## Frontend
