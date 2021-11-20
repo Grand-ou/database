@@ -11,7 +11,7 @@ const GetDealInfo = ({ company }) => {
     const json = JSON.stringify({"cname": company})
 
     useEffect(() => {
-      axios.post('http://127.0.0.1:8000/api/stockinformation', {"cname": company})
+      axios.post('http://127.0.0.1:8000/api/stockinformation', {"cid": company})
       .then((res) => { 
         setDealInfo(res.data)
       })
