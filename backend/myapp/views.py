@@ -288,14 +288,16 @@ def back_test_rsi(request):
             sig.append(0)
 
         for i in range(period, len(rsi_series)):
-            if rsi_series[i] > (100-Threshold) and stock == 1 and Budget > 1000*Open[i+1]:
+            if rsi_series[i] > (100-Threshold) and stock == 1:
                 stock -= 1
                 sig.append(-1)
-                Budget -= 1000*Open[i+1]
-            elif rsi_series[i] < Threshold and stock == 0:
+                if period+i+1 < len(Open):
+                    Budget += 1000*Open[period+i+1]
+            elif rsi_series[i] < Threshold and stock == 0 and Budget > 1000*Open[period+i+1]:
                 stock += 1
                 sig.append(1)
-                Budget += 1000*Open[i+1]
+                if period+i+1 < len(Open):
+                    Budget -= 1000*Open[period+i+1]
             else:
                 sig.append(0)
         rsi_sig = pd.Series(index = rsi_series.index, data = sig)
@@ -315,6 +317,11 @@ def back_test_kd(request):
         Threshold = request.data['Threshold']
         Profit = request.data['Profit']
         Loss = request.data['Loss']
+        Budget = request.data['Budget']
+
+        period=int(period)
+        Threshold = int(Threshold)
+        Budget = int(Budget)
 
         deal = pd.DataFrame(list(Deal.objects.filter(company_id=Company_id).order_by('ddate').values()))
         Close = deal['close_price'].squeeze()
@@ -332,7 +339,7 @@ def back_test_kd(request):
         k = [50]
         d = [50]
         
-        for i in range(period-1, len(rsv)):
+        for i in range(period+1, len(rsv)):
             k_t = k[-1]*2/3 + rsv[i]/3
             k.append(k_t)
             d_t = k_t/3 + d[-1]*2/3
@@ -342,18 +349,25 @@ def back_test_kd(request):
 
         stock = 0
 
-        for i in range(len(d)):
+        for i in range(period):
+            sig.append(0)
+
+        for i in range(period, len(d)):
             if d[i] > (100-Threshold) and stock == 1:
                 stock -= 1
                 sig.append(-1)
-            elif d[i] < Threshold and stock == 0:
+                if period+i+1 < len(Open):
+                    Budget += 1000*Open[period+i+1]
+            elif d[i] < Threshold and stock == 0 and Budget > 1000*Open[period+i+1]:
                 stock += 1
                 sig.append(1)
+                if period+i+1 < len(Open):
+                    Budget -= 1000*Open[period+i+1]
             else:
                 sig.append(0)
-        kd_sig = pd.Series(index = d.index, data = sig)
+        kd_sig = pd.Series(index = Close.index[period:], data = sig)
 
-        score = test(kd_sig, Open)
+        score = test(kd_sig, Open, period)
 
     return Response(score, status=status.HTTP_200_OK)
 
