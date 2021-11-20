@@ -29,9 +29,9 @@ const App = () => {
   const [phone, setPhone] = useState('123');
   const [name, setName] = useState('123');
 
-  const [LR, setLR] = useState(false)
+  const [LR, setLR] = useState(true)
   const [login, setLogin] = useState(false)
-  const [registerPage, setRegisterPage] = useState(true)
+  const [registerPage, setRegisterPage] = useState(false)
   const [register, setRegister] = useState(false)
   const [menuset, setMenuset] = useState(false)
   const [clickDeal, setClickDeal] = useState(false)
