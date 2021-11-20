@@ -2,7 +2,6 @@ import { Select, Table } from 'antd';
 import 'antd/dist/antd.css';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import qs from 'qs'
 
 const { Option } = Select;
 
