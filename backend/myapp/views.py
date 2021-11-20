@@ -65,11 +65,11 @@ def stockinformation(request):
     
     if request.method == 'POST':
         try:
-            informationid = request.data['cname']
+            informationid = request.data['cid']
         except KeyError:
             return Response("1 parameter is required.(cname)", status=status.HTTP_400_BAD_REQUEST)
 
-        unit = Company.objects.get(cname = informationid)
+        unit = Company.objects.get(cid = informationid)
         result = []
         data = {}
         data['cid'] = unit.cid

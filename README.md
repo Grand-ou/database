@@ -75,6 +75,7 @@ python manage.py runserver
 ```shell
 cd frontend
 yarn
+npm install
 ```
 
 #### Step 2. 開啟前端
