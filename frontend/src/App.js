@@ -24,14 +24,14 @@ const App = () => {
   const [stopLoss, setStopLoss] = useState(100)
   const [str1, setStr1] = useState('設定長度(2~25): ');
   const [str2, setStr2] = useState('設定閾值(10~40):');
-  const [userID, setUserID] = useState('');
-  const [password, setPassword] = useState('');
-  const [phone, setPhone] = useState('');
-  const [name, setName] = useState('');
+  const [userID, setUserID] = useState('123');
+  const [password, setPassword] = useState('123');
+  const [phone, setPhone] = useState('123');
+  const [name, setName] = useState('123');
 
-  const [LR, setLR] = useState(true)
+  const [LR, setLR] = useState(false)
   const [login, setLogin] = useState(false)
-  const [registerPage, setRegisterPage] = useState(false)
+  const [registerPage, setRegisterPage] = useState(true)
   const [register, setRegister] = useState(false)
   const [menuset, setMenuset] = useState(false)
   const [clickDeal, setClickDeal] = useState(false)
@@ -55,11 +55,9 @@ const App = () => {
     {login?
     <Login_Succeed userID={userID} 
                    password={password} 
-                   name={name} 
-                   phone={phone} 
-                   setRegisterPage={setRegisterPage} 
                    setMenuset={setMenuset} 
-                   setRegister={setRegister} />
+                   setLogin={setLogin}
+                   setLR={setLR} />
     :<></>}
     {registerPage?
     <RegisterPage setUserID={setUserID} 
@@ -72,6 +70,8 @@ const App = () => {
     {register?
     <Register_Succeed userID={userID} 
                       password={password} 
+                      name={name} 
+                      phone={phone} 
                       setRegister={setRegister} 
                       setMenuset={setMenuset} 
                       setRegisterPage={setRegisterPage} />
