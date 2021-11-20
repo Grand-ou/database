@@ -4,29 +4,33 @@ import { useEffect, useState } from 'react';
 import { Input } from 'antd';
 import { Space } from 'antd';
 
-const User = ({ setUserID, setPassword }) => {
+const User = ({ setUserID, setPassword, setLogin }) => {
     
-      const onChangeID = (value) => {
-        console.log(`selected ${value}`);
-        setUserID(value)
-      }
-      const onChangePwd = (value) => {
-        console.log(`selected ${value}`);
-        setPassword(value)
-      }
+  const onChangeID = (e) => {
+    console.log(`selected ${e}`);
+    setUserID(e.target.value);
+    setLogin(false);
+  }
+  const onChangePwd = (e) => {
+    console.log(`selected ${e}`);
+    setPassword(e.target.value);
+    setLogin(false);
+  }
       
-      return(
+      return<>
         <div>
             <Space className='stopLoss'>
                 <h3>輸入帳號</h3>
                 <Input placeholder="請輸入帳號"
+                       defaultValue='123'
                        onChange={onChangeID} />
                 <h3>輸入密碼</h3>
                 <Input placeholder="請輸入密碼"
+                       defaultValue='123'
                        onChange={onChangePwd} />
             </Space>
         </div>
-      );
+      </>
 
 }
 
