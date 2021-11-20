@@ -2,17 +2,17 @@ import { Select, Table } from 'antd';
 import 'antd/dist/antd.css';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import qs from 'qs'
 
 const { Option } = Select;
 
 const GetDealInfo = ({ company }) => {
 
     const [dealInfo, setDealInfo] = useState([])
+    const json = JSON.stringify({"cname": company})
 
     useEffect(() => {
-      axios.post('http://127.0.0.1:8000/api/stockinformation', {     //某個function，傳入公司資料，便回傳剩下所需資訊
-        "cname": company
-      })
+      axios.post('http://127.0.0.1:8000/api/stockinformation', {"cname": company})
       .then((res) => { 
         setDealInfo(res.data)
       })
@@ -52,9 +52,10 @@ const GetDealInfo = ({ company }) => {
       }
     ];
 
-      return(
+      return<>
         <Table columns={columns} dataSource={dealInfo} />
-      );
+
+      </>
 
 }
 
