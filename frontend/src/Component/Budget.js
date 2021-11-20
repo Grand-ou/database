@@ -1,32 +1,29 @@
-import { Select } from 'antd';
 import 'antd/dist/antd.css';
 //import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { InputNumber } from 'antd';
 import { Space } from 'antd';
 
-const StopProfit = ({ setStopProfit, setClickCheck }) => {
-    
+const Budget = ({ setBudget, setClickCheck }) => {
+
       const onChange = (value) => {
         console.log(`selected ${value}`);
-        setStopProfit(value);
+        setBudget(value);
         setClickCheck(false);
       }
       
       return(
         <div>
-            <Space className='stopProfit'>
-                <h3>停利點</h3>
+            <Space className='num'>
+                <h3>預算</h3>
                 <InputNumber 
                 min={0} 
-                max={100} 
-                defaultValue={0} 
+                defaultValue={10000} 
                 onChange={onChange} />
-                <p>%</p>
             </Space>
         </div>
       );
 
 }
 
-export default StopProfit
+export default Budget

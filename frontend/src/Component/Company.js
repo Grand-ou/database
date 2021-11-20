@@ -7,16 +7,6 @@ const { Option } = Select;
 
 const Companies = ({ setCompany, setClickCheck }) => {
 
-    const [companies, setCompanies] = useState([])
-
-    useEffect(() => {
-        axios.get('http://127.0.0.1:8000/api/companies')
-        .then((res) => { 
-          setCompanies(res.data)
-        })
-        .catch((error) => { console.log(error) })
-    },[])
-
     const onChange = (value) => {
         console.log(`selected ${value}`);
         setCompany(value)

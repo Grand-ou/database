@@ -55,7 +55,7 @@ def login_request(request):
             return Response("Invalid password.", status=status.HTTP_400_BAD_REQUEST)
 
         now_login_iid = login_investor.iid
-        return Response("iid: "+ str(now_login_iid) + " successfully logged in.", status=status.HTTP_200_OK)
+        return Response("Successfully logged in.", status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])

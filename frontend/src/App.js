@@ -22,6 +22,7 @@ const App = () => {
   const [num2, setNum2] = useState(30)
   const [stopProfit, setStopProfit] = useState(0)
   const [stopLoss, setStopLoss] = useState(100)
+  const [budget, setBudget] = useState(10000)
   const [str1, setStr1] = useState('設定長度(2~25): ');
   const [str2, setStr2] = useState('設定閾值(10~40):');
   const [userID, setUserID] = useState('123');
@@ -95,6 +96,7 @@ const App = () => {
             setNum2={setNum2}
             setStopProft={setStopProfit} 
             setStopLoss={setStopLoss}
+            setBudget={setBudget}
             setClickCheck={setClickCheck}
             setClickCreate={setClickCreate}
             setClickInd={setClickInd}
@@ -107,6 +109,7 @@ const App = () => {
                  num2={num2}
                  stopProfit={stopProfit}
                  stopLoss={stopLoss} 
+                 budget={budget}
                  setClickCheck={setClickCheck}
                  setClickCreate={setClickCreate} />:<></>}
     {createComplete?
@@ -116,6 +119,7 @@ const App = () => {
                     num2={num2}
                     stopProfit={stopProfit}
                     stopLoss={stopLoss}
+                    budget={budget}
                     setClickCreate={setClickCreate}
                     setCreateComplete={setCreateComplete} />:<></>}
     {watchHistory?
