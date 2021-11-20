@@ -28,11 +28,11 @@ const Companies = ({ setCompany, setClickCheck }) => {
                     option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                 }
                 >
-                <Option value="台積電">台積電</Option>
-                <Option value="鴻海">鴻海</Option>
-                <Option value="聯發科">聯發科</Option>
-                <Option value="台塑化">台塑化</Option>
-                <Option value="中華電">中華電</Option>
+                <Option value="2330">台積電</Option>
+                <Option value="2317">鴻海</Option>
+                <Option value="2454">聯發科</Option>
+                <Option value="6505">台塑化</Option>
+                <Option value="2412">中華電</Option>
                 </Select>
             </Space>
         </div>
