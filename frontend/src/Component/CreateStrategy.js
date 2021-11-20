@@ -1,10 +1,5 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import CreateStrategyEMA from './CreateStrategyEMA';
-import CreateStrategyRSI from './CreateStrategyRSI';
-import CreateStrategyMACD from './CreateStrategyMACD';
-import CreateStrategyKD from './CreateStrategyKD';
-
 
 const CreateStrategy = ({ company, indicator, num1, num2, stopProfit, stopLoss, budget }) => {
 
