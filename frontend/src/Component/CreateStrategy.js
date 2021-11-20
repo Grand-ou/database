@@ -28,7 +28,8 @@ const CreateStrategy = ({ company, indicator, num1, num2, stopProfit, stopLoss, 
         "Fast_line": num1,
         "Slow_line": num2,
         "Profit": stopProfit, 
-        "Loss": stopLoss
+        "Loss": stopLoss,
+        "Budget": budget
       })
       .then((res) => { 
         setStrategy(res.data)
@@ -42,7 +43,8 @@ const CreateStrategy = ({ company, indicator, num1, num2, stopProfit, stopLoss, 
         "Length": num1,
         "Threshold": num2,
         "Profit": stopProfit, 
-        "Loss": stopLoss
+        "Loss": stopLoss,
+        "Budget": budget
       })
       .then((res) => { 
         setStrategy(res.data)
@@ -56,7 +58,8 @@ const CreateStrategy = ({ company, indicator, num1, num2, stopProfit, stopLoss, 
         "Fast_line": num1,
         "Slow_line": num2,
         "Profit": stopProfit, 
-        "Loss": stopLoss
+        "Loss": stopLoss,
+        "Budget": budget
       })
       .then((res) => { 
         setStrategy(res.data)
