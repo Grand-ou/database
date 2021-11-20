@@ -23,7 +23,6 @@ const CreateStrategy = ({ company, indicator, num1, num2, stopProfit, stopLoss, 
     }
     else if (indicator == 'MACD'){
       axios.post('http://127.0.0.1:8000/api/create/macd', {         //某種function，傳入各種數值進入策略的資料庫中
-        "Creator_id": userID,
         "Company_id": company,
         "Fast_line": num1,
         "Slow_line": num2,
@@ -38,7 +37,6 @@ const CreateStrategy = ({ company, indicator, num1, num2, stopProfit, stopLoss, 
     }
     else if (indicator == 'KD'){
       axios.post('http://127.0.0.1:8000/api/create/kd', {         //某種function，傳入各種數值進入策略的資料庫中
-        "Creator_id": userID,
         "Company_id": company,
         "Length": num1,
         "Threshold": num2,
@@ -53,7 +51,6 @@ const CreateStrategy = ({ company, indicator, num1, num2, stopProfit, stopLoss, 
     }
     else if (indicator == 'EMA'){
       axios.post('http://127.0.0.1:8000/api/create/ema', {         //某種function，傳入各種數值進入策略的資料庫中
-        "Creator_id": userID,
         "Company_id": company,
         "Fast_line": num1,
         "Slow_line": num2,
