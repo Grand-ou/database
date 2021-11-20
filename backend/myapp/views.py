@@ -147,7 +147,7 @@ def macd_create(request):
         except KeyError:
             return Response("6 parameters are all required.(Company_id, Fast_line, Low_line, Profit, Loss, Budget)", status=status.HTTP_400_BAD_REQUEST)    
 
-        strategy = Strategy(budget=Budget, creator_id=Creator_id, strategy_type='M')
+        strategy = Strategy(budget=Budget, creator_id=Investor.objects.get(iid=Creator_id), strategy_type='M')
         if list(Strategy.objects.values_list('sid').order_by('sid')) != []:
             strategy.sid = list(Strategy.objects.values_list('sid').order_by('sid'))[-1][0] + 1
         else:
@@ -176,7 +176,7 @@ def Kd_create(request):
         except KeyError:
             return Response("6 parameters are all required.(Company_id, Kd_Length, Threshold, Profit, Loss, Budget)", status=status.HTTP_400_BAD_REQUEST)
         
-        strategy = Strategy(budget=Budget, creator_id=Creator_id, strategy_type='K')
+        strategy = Strategy(budget=Budget, creator_id=Investor.objects.get(iid=Creator_id), strategy_type='K')
         if list(Strategy.objects.values_list('sid').order_by('sid')) != []:
             strategy.sid = list(Strategy.objects.values_list('sid').order_by('sid'))[-1][0] + 1
         else:
@@ -205,7 +205,7 @@ def Ema_create(request):
         except KeyError:
             return Response("6 parameters are all required.(Company_id, Fast_line, Slow_line, Profit, Loss, Budget)", status=status.HTTP_400_BAD_REQUEST)
         
-        strategy = Strategy(budget=Budget, creator_id=Creator_id, strategy_type='E')
+        strategy = Strategy(budget=Budget, creator_id=Investor.objects.get(iid=Creator_id), strategy_type='E')
         if list(Strategy.objects.values_list('sid').order_by('sid')) != []:
             strategy.sid = list(Strategy.objects.values_list('sid').order_by('sid'))[-1][0] + 1
         else:
@@ -218,18 +218,18 @@ def Ema_create(request):
         return Response("Ema strategy successfully created.", status=status.HTTP_200_OK)
 
 
-def test(sig, Open):
+def test(sig, Open, period):
     rets = []
     stock = 0
     buy_price = 0
     sell_price = 0
 
-    for i in range(len(sig)):
+    for i in range(period, len(sig)):
         if sig[i] == 1:
-            buy_price = Open[sig.index[i+1]]
+            buy_price = Open[i+1]
             stock += 1
         elif sig[i] == -1:
-            sell_price = Open[sig.index[i+1]]
+            sell_price = Open[i+1]
             stock -= 1
             rets.append((sell_price-buy_price)/buy_price)
             buy_price = 0
@@ -238,7 +238,7 @@ def test(sig, Open):
     total_ret = 1
     for ret in rets:
         total_ret *= 1 + ret
-    print(str(round((total_ret - 1)*100,2)) + '%')
+    return (str(round((total_ret - 1)*100,2)) + '%')
 
 
 
@@ -253,6 +253,11 @@ def back_test_rsi(request):
         Threshold = request.data['Threshold']
         Profit = request.data['Profit']
         Loss = request.data['Loss']
+        Budget = request.data['Budget']
+
+        period=int(period)
+        Threshold = int(Threshold)
+        Budget = int(Budget)
 
         deal = pd.DataFrame(list(Deal.objects.filter(company_id=Company_id).order_by('ddate').values('close_price', 'open_price')))
         Close = deal['close_price'].squeeze()
@@ -279,18 +284,23 @@ def back_test_rsi(request):
 
         stock = 0
 
-        for i in range(len(rsi_series)):
-            if rsi_series[i] > (100-Threshold) and stock == 1:
+        for i in range(period):
+            sig.append(0)
+
+        for i in range(period, len(rsi_series)):
+            if rsi_series[i] > (100-Threshold) and stock == 1 and Budget > 1000*Open[i+1]:
                 stock -= 1
                 sig.append(-1)
+                Budget -= 1000*Open[i+1]
             elif rsi_series[i] < Threshold and stock == 0:
                 stock += 1
                 sig.append(1)
+                Budget += 1000*Open[i+1]
             else:
                 sig.append(0)
         rsi_sig = pd.Series(index = rsi_series.index, data = sig)
 
-        score = test(rsi_sig, Open)
+        score = test(rsi_sig, Open, period)
 
     return Response(score, status=status.HTTP_200_OK)
 

@@ -8,9 +8,7 @@ const History = ({ userID }) => {
     const [historyData, setHistoryData] = useState([])
 
     useEffect(() => {
-      axios.post('http://127.0.0.1:8000/api/seestrategy', {     //某個function，傳入userID，傳回歷史資料
-        "user": userID
-      })
+      axios.get('http://127.0.0.1:8000/api/seestrategy')
       .then((res) => { 
         setHistoryData(res.data)
       })
@@ -33,19 +31,14 @@ const History = ({ userID }) => {
         key: 'budget',
       },
       {
-        title: '公司ID',
-        dataIndex: 'company_id',
-        key: 'company_id',
-      },
-      {
         title: '創建者ID',
         dataIndex: 'creator_id',
         key: 'creator_id',
       },
       {
         title: '使用指標',
-        dataIndex: 'indicator',
-        key: 'indicator',
+        dataIndex: 'strategy_type',
+        key: 'strategy_type',
       }
     ];
 
