@@ -94,7 +94,7 @@ def seestrategy(request):
             data = {}
             data['sid'] = unit['sid']
             data['budget'] = unit['budget']
-            data['creator_id'] = unit['creator_id']
+            data['creator_id'] = unit['creator_id_id']  #foreign key db column
             data['strategy_type'] = unit['strategy_type']
             result.append(data)
 
@@ -157,9 +157,9 @@ def macd_create(request):
         Sid = Strategy.objects.latest('sid')
         macd = MACD(sid=Sid, company_id=Company_id, fast_line=Fast_line, slow_line=Slow_line, profit=Profit, loss=Loss)
         macd.save()
-        return Response("MACD strategy successfully created.")
+        return Response("MACD strategy successfully created.", status=status.HTTP_200_OK)
 
-@require_POST
+@api_view(['POST'])
 def Kd_create(request):
     if request.method == "POST":
         if now_login_iid <= 0:
@@ -186,9 +186,9 @@ def Kd_create(request):
         Sid = Strategy.objects.latest('sid')
         kd = KD(sid=Sid, company_id=Company_id, kd_length=Kd_Length, threshold=Threshold, profit=Profit, loss=Loss)
         kd.save()
-        return Response("KD strategy successfully created.")
+        return Response("KD strategy successfully created.", status=status.HTTP_200_OK)
 
-@require_POST
+@api_view(['POST'])
 def Ema_create(request):
     if request.method == "POST":
         if now_login_iid <= 0:
@@ -215,7 +215,7 @@ def Ema_create(request):
         Sid = Strategy.objects.latest('sid')
         ema = EMA(sid=Sid, company_id=Company_id, fast_line=Fast_line, slow_line=Slow_line, profit=Profit, loss=Loss)
         ema.save()
-        return Response("Ema strategy successfully created.")
+        return Response("Ema strategy successfully created.", status=status.HTTP_200_OK)
 
 
 def test(sig, Open):
@@ -242,16 +242,19 @@ def test(sig, Open):
 
 
 
-@require_POST
+@api_view(['POST'])
 def back_test_rsi(request):
     if request.method == "POST":
-        Company_id = request.POST.get('Company_id')
-        period = request.POST.get('Length')
-        Threshold = request.POST.get('Threshold')
-        Profit = request.POST.get('Profit')
-        Loss = request.POST.get('Loss')
+        if now_login_iid <= 0:
+            return Response("Not logged in.", status=status.HTTP_400_BAD_REQUEST)
 
-        deal = pd.DataFrame(list(Deal.objects.filter(company_id=Company_id).order_by('ddate').values(close_price, open_price)))
+        Company_id = request.data['Company_id']
+        period = request.data['Length']
+        Threshold = request.data['Threshold']
+        Profit = request.data['Profit']
+        Loss = request.data['Loss']
+
+        deal = pd.DataFrame(list(Deal.objects.filter(company_id=Company_id).order_by('ddate').values('close_price', 'open_price')))
         Close = deal['close_price'].squeeze()
         Open = deal['open_price'].squeeze()
 
@@ -289,16 +292,19 @@ def back_test_rsi(request):
 
         score = test(rsi_sig, Open)
 
-    return Response("RSI back test succeed.")
+    return Response(score, status=status.HTTP_200_OK)
 
-@require_POST
+@api_view(['POST'])
 def back_test_kd(request):
     if request.method == "POST":
-        Company_id = request.POST.get('Company_id')
-        period = request.POST.get('Length')
-        Threshold = request.POST.get('Threshold')
-        Profit = request.POST.get('Profit')
-        Loss = request.POST.get('Loss')
+        if now_login_iid <= 0:
+            return Response("Not logged in.", status=status.HTTP_400_BAD_REQUEST)
+
+        Company_id = request.data['Company_id']
+        period = request.data['Length']
+        Threshold = request.data['Threshold']
+        Profit = request.data['Profit']
+        Loss = request.data['Loss']
 
         deal = pd.DataFrame(list(Deal.objects.filter(company_id=Company_id).order_by('ddate').values()))
         Close = deal['close_price'].squeeze()
@@ -339,19 +345,22 @@ def back_test_kd(request):
 
         score = test(kd_sig, Open)
 
-    return Response("KD back test succeed.")
+    return Response(score, status=status.HTTP_200_OK)
 
-@require_POST
+@api_view(['POST'])
 def back_test_macd(request):
     if request.method == "POST":
-        Creator_id = request.POST.get('Creator_id')
-        Company_id = request.POST.get('Company_id')
-        Fast_line = request.POST.get('Fast_line')
-        Slow_line = request.POST.get('Slow_line')
-        Profit = request.POST.get('Profit')
-        Loss = request.POST.get('Loss')
+        if now_login_iid <= 0:
+            return Response("Not logged in.", status=status.HTTP_400_BAD_REQUEST)
 
-        deal = pd.DataFrame(list(Deal.objects.filter(company_id=Company_id).order_by('ddate').values(close_price, open_price)))
+        Creator_id = request.data['Creator_id']
+        Company_id = request.data['Company_id']
+        Fast_line = request.data['Fast_line']
+        Slow_line = request.data['Slow_line']
+        Profit = request.data['Profit']
+        Loss = request.data['Loss']
+
+        deal = pd.DataFrame(list(Deal.objects.filter(company_id=Company_id).order_by('ddate').values('close_price', 'open_price')))
         Close = deal['close_price'].squeeze()
         Open = deal['open_price'].squeeze()
 
@@ -379,19 +388,22 @@ def back_test_macd(request):
 
         score = test(macd_sig, Open)
 
-    return Response("MACD back test succeed.")
+    return Response(score, status=status.HTTP_200_OK)
 
-@require_POST
+@api_view(['POST'])
 def back_test_ema(request):
     if request.method == "POST":
-        Creator_id = request.POST.get('Creator_id')
-        Company_id = request.POST.get('Company_id')
-        Fast_line = request.POST.get('Fast_line')
-        Slow_line = request.POST.get('Slow_line')
-        Profit = request.POST.get('Profit')
-        Loss = request.POST.get('Loss')
+        if now_login_iid <= 0:
+            return Response("Not logged in.", status=status.HTTP_400_BAD_REQUEST)
 
-        deal = pd.DataFrame(list(Deal.objects.filter(company_id=Company_id).order_by('ddate').values(close_price, open_price)))
+        Creator_id = request.data['Creator_id']
+        Company_id = request.data['Company_id']
+        Fast_line = request.data['Fast_line']
+        Slow_line = request.data['Slow_line']
+        Profit = request.data['Profit']
+        Loss = request.data['Loss']
+
+        deal = pd.DataFrame(list(Deal.objects.filter(company_id=Company_id).order_by('ddate').values('close_price', 'open_price')))
         Close = deal['close_price'].squeeze()
         Open = deal['open_price'].squeeze()
 
@@ -416,5 +428,5 @@ def back_test_ema(request):
 
         score = test(ema_sig, Open)
 
-    return Response("EMA back test succeed.")
+    return Response(score, status=status.HTTP_200_OK)
 
