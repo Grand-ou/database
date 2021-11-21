@@ -31,7 +31,7 @@ const History = ({ userID }) => {
         key: 'budget',
       },
       {
-        title: '創建者ID',
+        title: '公司名稱',
         dataIndex: 'creator_id',
         key: 'creator_id',
       },
