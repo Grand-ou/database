@@ -146,7 +146,11 @@
   width: 130px;
   margin: 20px;
 }
-
+.create_h4{
+  text-align: center;
+  width: 130px;
+  margin: 20px;
+}
 .create_strategy{
   float:left;
   text-align: right;

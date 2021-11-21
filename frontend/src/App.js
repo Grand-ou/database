@@ -30,11 +30,11 @@ const App = () => {
   const [phone, setPhone] = useState('123');
   const [name, setName] = useState('123');
 
-  const [LR, setLR] = useState(true)
+  const [LR, setLR] = useState(false)
   const [login, setLogin] = useState(false)
   const [registerPage, setRegisterPage] = useState(false)
   const [register, setRegister] = useState(false)
-  const [menuset, setMenuset] = useState(false)
+  const [menuset, setMenuset] = useState(true)
   const [clickDeal, setClickDeal] = useState(false)
   const [clickCreate, setClickCreate] = useState(false)
   const [clickInd, setClickInd] = useState(false)         //選擇指標的確定鍵
@@ -77,7 +77,10 @@ const App = () => {
                       setMenuset={setMenuset} 
                       setRegisterPage={setRegisterPage} />
     :<></>}
-    {menuset?<MenuSet setClickDeal={setClickDeal} setClickCreate={setClickCreate} setMenuset={setMenuset} />
+    {menuset?<MenuSet setClickDeal={setClickDeal} 
+                      setClickCreate={setClickCreate} 
+                      setClickInd={setClickInd}
+                      setClickCompany={setClickCompany} />
     :<></>}
     {clickCreate?
     <ChooseInd setIndicator={setIndicator}
@@ -130,7 +133,9 @@ const App = () => {
     <Deal setCompany={setCompany}
           setClickCompany={setClickCompany}
           setMenuset={setMenuset}
-          setClickDeal={setClickDeal} />:<></>}
+          setClickDeal={setClickDeal}
+          setClickCreate={setClickCreate}
+          setClickInd={setClickInd} />:<></>}
     {clickCompany?
     <DealInfo company={company} />:<></>}
   </>

@@ -65,7 +65,7 @@ const Backtest = ({ company, indicator, num1, num2, stopProfit, stopLoss, budget
   },[])
 
   return <>
-      <h3>回測分數: {backtest}</h3>
+      <h3 class = 'create_h3'>回測分數: {backtest}</h3>
   </>
 }
 
