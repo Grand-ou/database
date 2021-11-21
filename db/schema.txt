@@ -68,6 +68,7 @@ CREATE TABLE STOCK.EMA(	--存用EMA的策略
 );
 
 CREATE TABLE STOCK.Deal(
+	Did INT PRIMARY KEY,
 	Company_id VARCHAR,
  	Ddate DATE,
  	Open_price DECIMAL NOT NULL,	
@@ -75,7 +76,6 @@ CREATE TABLE STOCK.Deal(
 	Volume VARCHAR,
 	High DECIMAL,
 	Low DECIMAL,
-	PRIMARY KEY(Company_id, Ddate),
 	FOREIGN KEY(Company_id) REFERENCES STOCK.Company(Cid) ON DELETE CASCADE
 );
 
