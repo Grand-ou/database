@@ -7,7 +7,7 @@ const RegisterPage = ( { setUserID, setPassword, setName, setPhone, setRegisterP
     return (
         <div className='login_register'>
             <h1>登入與註冊</h1>
-            <User_register setUserID={setUserID} setPassword={setPassword} setName={setName} setPhone={setPhone} />
+            <User_register setUserID={setUserID} setPassword={setPassword} setName={setName} setPhone={setPhone} setRegister={setRegister}/>
             <div class = 'login_button'>
             <div  onClick={()=>{setRegister(true); setRegisterPage(false)}}>註冊</div>
             </div>
