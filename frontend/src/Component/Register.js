@@ -20,7 +20,9 @@ const Register = ({ userID, password, name, phone, setRegister, setMenuset, setR
   },[])
 
   return <>
+    <h1>登入與註冊</h1>
     {registerStr == 'Successfully signed up.'?
+    
     <Button onClick={()=>{setRegister(false); setMenuset(true);}}>註冊成功，進入主頁面</Button>:
     <Button onClick={()=>{setRegister(false); setRegisterPage(true);}}>註冊失敗，返回註冊頁</Button>}
     <p>{registerStr}</p>

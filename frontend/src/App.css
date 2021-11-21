@@ -79,12 +79,49 @@
 }
 .button{
   text-align: center;
-  font-size: 30px;
+  font-size: 40px;
   float: right;
-  border: 5pxs;
+  border: 5px;
   margin: 10px;
 }
 
 .login_register{
+  margin: auto;
   /* position: relative; */
+  border: 1px solid black;
+  width: 400px;
+  height: 500px;
+  text-align: center;
+  box-shadow: 5px 5px gray;
+}
+
+.login_button{
+  /* width: 100px; */
+  margin: auto;
+  margin-top: 10px;
+  height: 50px;
+  width: 300px;
+  border-radius: 20px;
+  background: aliceblue;
+  font-size: 20px;
+  text-align: center;
+  line-height:50px;
+
+}
+.login_button:hover,
+.login_button:focus {
+  color: #40a9ff;
+  border-color: #40a9ff;
+  background: aliceblue;
+}
+
+.user_login_button{
+  margin: 5px;
+}
+.login_register.h1{
+  background-color: bisque;
+}
+
+.stopLoss{
+  margin: 10px;
 }

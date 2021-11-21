@@ -29,20 +29,31 @@ const User_register = ({ setUserID, setPassword, setName, setPhone, setRegister 
       
       return(
         <div>
-            <Space className='Register'>
+          <div>
+            <Space className='stopLoss'>
                 <h3>輸入帳號</h3>
                 <Input defaultValue='123'
                        onChange={onChangeID} />
+            </Space>
+            </div><div>
+            <Space className='stopLoss'>
                 <h3>輸入密碼</h3>
                 <Input defaultValue='123'
                        onChange={onChangePwd} />
+            </Space>
+            </div><div>
+            <Space className='stopLoss'>
                 <h3>輸入姓名</h3>
                 <Input defaultValue='123'
                        onChange={onChangeName} />
+            </Space>
+            </div><div>
+            <Space className='stopLoss'>
                 <h3>輸入電話</h3>
                 <Input defaultValue='123'
                        onChange={onChangePhone} />
             </Space>
+            </div>
         </div>
       );
 

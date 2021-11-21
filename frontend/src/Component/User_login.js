@@ -19,16 +19,21 @@ const User = ({ setUserID, setPassword, setLogin }) => {
       
       return<>
         <div>
+          <div >
             <Space className='stopLoss'>
                 <h3>輸入帳號</h3>
                 <Input placeholder="請輸入帳號"
                        defaultValue='123'
                        onChange={onChangeID} />
+            </Space>
+            </div><div>
+            <Space className='stopLoss'>
                 <h3>輸入密碼</h3>
                 <Input placeholder="請輸入密碼"
                        defaultValue='123'
                        onChange={onChangePwd} />
             </Space>
+            </div>
         </div>
       </>
 
