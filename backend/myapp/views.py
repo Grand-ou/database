@@ -94,15 +94,23 @@ def seestrategy(request):
             data = {}
             data['sid'] = unit['sid']
             data['budget'] = unit['budget']
-            data['creator_id'] = unit['creator_id_id']  #foreign key db column
+            #data['creator_id'] = unit['creator_id_id']  #foreign key db column
             if unit['strategy_type'] == 'R':
+                cid_ = RSI.objects.get(sid=data['sid']).company_id
+                data['creator_id'] = Company.objects.get(cid=cid_).cname
                 data['strategy_type'] = 'RSI'
             elif unit['strategy_type'] == 'M':
+                cid_ = MACD.objects.get(sid=data['sid']).company_id
+                data['creator_id'] = Company.objects.get(cid=cid_).cname
                 data['strategy_type'] = 'MACD'
             elif unit['strategy_type'] == 'K':
-                data['strategy_type'] == 'KD'
+                cid_ = KD.objects.get(sid=data['sid']).company_id
+                data['creator_id'] = Company.objects.get(cid=cid_).cname
+                data['strategy_type'] = 'KD'
             else:
-                data['strategy_type'] == 'EMA'
+                cid_ = EMA.objects.get(sid=data['sid']).company_id
+                data['creator_id'] = Company.objects.get(cid=cid_).cname
+                data['strategy_type'] = 'EMA'
             result.append(data)
 
         return Response(result, status=status.HTTP_200_OK)
