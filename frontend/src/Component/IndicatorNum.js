@@ -20,20 +20,26 @@ const IndicatorNum = ({ str1, str2, setNum1, setNum2, setClickCheck }) => {
       
       return(
         <div>
+        <div className='create'>
             <Space className='num'>
-                <h3>{str1}</h3>
+                <h3  className='create_h3'>{str1}</h3>
                 <InputNumber 
                 min={0} 
                 max={100} 
                 defaultValue={5} 
                 onChange={onChange1} />
-                <h3>{str2}</h3>
+            </Space>
+            </div>
+            <div className='create'>
+            <Space className='num'>
+                <h3 className='create_h3'>{str2}</h3>
                 <InputNumber 
                 min={0} 
                 max={100} 
                 defaultValue={30} 
                 onChange={onChange2} />
             </Space>
+        </div>
         </div>
       );
 

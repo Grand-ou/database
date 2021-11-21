@@ -125,3 +125,24 @@
 .stopLoss{
   margin: 10px;
 }
+
+.create{
+  /* margin: auto;
+  position: relative;
+  border: 1px solid black;
+  width: 400px;
+  height: 500px;
+  text-align: center;
+  box-shadow: 5px 5px gray; */
+
+}
+
+.company{
+  width: 300;
+}
+
+.create_h3{
+  text-align: right;
+  width: 130px;
+  margin: 20px;
+}

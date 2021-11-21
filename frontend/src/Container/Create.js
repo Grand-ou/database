@@ -10,15 +10,15 @@ import { useState } from 'react';
 const Create = ({ str1, str2, setCompany, setNum1, setNum2, setStopProfit, setBudget, setStopLoss, setClickCheck, setClickCreate, setClickInd, setCreateComplete, setWatchHistory }) => {
 
     return(
-        <div className='create'>
+        <div >
             <Companies setCompany={setCompany} setClickCheck={setClickCheck} />
             <IndicatorNum str1={str1} str2={str2} setNum1={setNum1} setNum2={setNum2} setClickCheck={setClickCheck} />
             <StopLoss setStopLoss={setStopLoss} setClickCheck={setClickCheck} />
             <StopProfit setStopProfit={setStopProfit} setClickCheck={setClickCheck} />
             <Budget setBudget={setBudget} setClickCheck={setClickCheck} />
-            <Button onClick={()=>{setClickCheck(true); setClickCreate(false); setClickInd(false);}}>進行回測</Button>
-            <Button onClick={()=>{setCreateComplete(true); setClickCreate(false); setClickInd(false);}}>建立策略</Button>
-            <Button onClick={()=>{setWatchHistory(true); setClickCreate(false); setClickInd(false);}}>觀看歷史策略</Button>
+            <Button  className='create_h3' onClick={()=>{setClickCheck(true); setClickCreate(false); setClickInd(false);}}>進行回測</Button>
+            <Button  className='create_h3' onClick={()=>{setCreateComplete(true); setClickCreate(false); setClickInd(false);}}>建立策略</Button>
+            <Button  className='create_h3' onClick={()=>{setWatchHistory(true); setClickCreate(false); setClickInd(false);}}>觀看歷史策略</Button>
         </div>
     )
 }

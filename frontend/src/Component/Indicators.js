@@ -38,10 +38,10 @@ const Indicators = ({ setIndicator, setStr1, setStr2, setClickCheck }) => {
     }
       
     return(
-        <div>
-            <Space className='indicators'>
-                <h3>開關單指標</h3>
-                <Select style={{ width: 120 }} 
+        <div >
+            <Space >
+                <h3 className='create_h3'>開關單指標</h3>
+                <Select style={{ width: 300}} 
                         onChange={onChangeIndicator}
                         filterOption={(input, option) =>
                             option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0

@@ -15,7 +15,7 @@ const Budget = ({ setBudget, setClickCheck }) => {
       return(
         <div>
             <Space className='num'>
-                <h3>預算</h3>
+                <h3 className='create_h3'>預算</h3>
                 <InputNumber 
                 min={0} 
                 defaultValue={10000} 

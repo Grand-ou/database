@@ -16,7 +16,7 @@ const StopProfit = ({ setStopProfit, setClickCheck }) => {
       return(
         <div>
             <Space className='stopProfit'>
-                <h3>停利點</h3>
+                <h3  className='create_h3'>停利點</h3>
                 <InputNumber 
                 min={0} 
                 max={100} 

@@ -14,8 +14,8 @@ const StopLoss = ({ setStopLoss, setClickCheck }) => {
       
       return(
         <div>
-            <Space className='stopLoss'>
-                <h3>停損點</h3>
+            <Space className='stopProfit'>
+                <h3 className='create_h3'>停損點</h3>
                 <InputNumber 
                 min={0} 
                 max={100} 
