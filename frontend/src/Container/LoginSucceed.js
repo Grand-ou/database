@@ -14,7 +14,7 @@ const Login_Succeed = ( { userID, password, setLogin, setMenuset, setLR } ) => {
         <Login userID={userID} password={password} setLoginStr={setLoginStr} />
             {loginStr == 'Successfully logged in.'?
             <Button onClick={()=>{setLogin(false); setMenuset(true);}}>登入成功，進入主頁面</Button>:
-            <Button onClick={()=>{setLogin(false); setLR(true);}}>登入失敗，返回註冊頁</Button>}
+            <Button onClick={()=>{setLogin(false); setLR(true);}}>帳號或密碼錯誤，返回登入頁</Button>}
         </div>
 
     )

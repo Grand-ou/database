@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { Space, Button } from 'antd'
 
-const Register = ({ userID, password, name, phone, setRegister, setMenuset, setRegisterPage }) => {
+const Register = ({ userID, password, name, phone, setRegister, setLR, setRegisterPage }) => {
 
   const [registerStr, setRegisterStr] = useState();
 
@@ -22,10 +22,8 @@ const Register = ({ userID, password, name, phone, setRegister, setMenuset, setR
   return <>
     <h1>登入與註冊</h1>
     {registerStr == 'Successfully signed up.'?
-    
-    <Button onClick={()=>{setRegister(false); setMenuset(true);}}>註冊成功，進入主頁面</Button>:
-    <Button onClick={()=>{setRegister(false); setRegisterPage(true);}}>註冊失敗，返回註冊頁</Button>}
-    <p>{registerStr}</p>
+    <Button onClick={()=>{setRegister(false); setLR(true);}}>註冊成功，返回登入頁</Button>:
+    <Button onClick={()=>{setRegister(false); setRegisterPage(true);}}>帳號已被使用，返回註冊頁</Button>}
   </>
 }
 

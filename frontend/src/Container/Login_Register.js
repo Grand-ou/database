@@ -7,7 +7,7 @@ const Login_Register = ( { setUserID, setPassword, setLogin, setRegisterPage, se
     return (
         <div class='login_register'>
             <h1>登入與註冊</h1>
-            <User setUserID={setUserID} setPassword={setPassword} />
+            <User setUserID={setUserID} setPassword={setPassword} setLogin={setLogin} />
             <div class = 'login_button'>
             <div onClick={()=>{setLogin(true); setLR(false);}}>登入</div>
             </div>
