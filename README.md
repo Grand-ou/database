@@ -92,7 +92,7 @@ yarn start
 
 
 #### 個股查詢
-[Uploading 截圖 2021-11-21 下午4.59.07.png…]()
+![image](https://github.com/Grand-ou/database/blob/main/截圖%202021-11-21%20下午4.59.07.png)
 
 
 #### 建立策略(RSI)
