@@ -95,7 +95,14 @@ def seestrategy(request):
             data['sid'] = unit['sid']
             data['budget'] = unit['budget']
             data['creator_id'] = unit['creator_id_id']  #foreign key db column
-            data['strategy_type'] = unit['strategy_type']
+            if unit['strategy_type'] == 'R':
+                data['strategy_type'] = 'RSI'
+            elif unit['strategy_type'] == 'M':
+                data['strategy_type'] = 'MACD'
+            elif unit['strategy_type'] == 'K':
+                data['strategy_type'] == 'KD'
+            else:
+                data['strategy_type'] == 'EMA'
             result.append(data)
 
         return Response(result, status=status.HTTP_200_OK)

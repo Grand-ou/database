@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { Space, Button } from 'antd'
 
-const Register = ({ userID, password, name, phone, setRegister, setMenuset, setRegisterPage }) => {
+const Register = ({ userID, password, name, phone, setRegister, setLR, setRegisterPage }) => {
 
   const [registerStr, setRegisterStr] = useState();
 
