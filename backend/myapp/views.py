@@ -65,11 +65,11 @@ def stockinformation(request):
     
     if request.method == 'POST':
         try:
-            informationid = request.data['cname']
+            informationid = request.data['cid']
         except KeyError:
             return Response("1 parameter is required.(cname)", status=status.HTTP_400_BAD_REQUEST)
 
-        unit = Company.objects.get(cname = informationid)
+        unit = Company.objects.get(cid = informationid)
         result = []
         data = {}
         data['cid'] = unit.cid
@@ -181,7 +181,7 @@ def Kd_create(request):
             strategy.sid = list(Strategy.objects.values_list('sid').order_by('sid'))[-1][0] + 1
         else:
             strategy.sid = 1
-        strategy.save
+        strategy.save()
 
         Sid = Strategy.objects.latest('sid')
         kd = KD(sid=Sid, company_id=Company_id, kd_length=Kd_Length, threshold=Threshold, profit=Profit, loss=Loss)
@@ -196,12 +196,12 @@ def Ema_create(request):
 
         try:
             Creator_id = now_login_iid
-            Company_id = request.POST.get('Company_id')
-            Fast_line = request.POST.get('Fast_line')
-            Slow_line = request.POST.get('Slow_line')
-            Profit = request.POST.get('Profit')
-            Loss = request.POST.get('Loss')
-            Budget = request.POST.get('Budget')
+            Company_id = request.data['Company_id']
+            Fast_line = request.data['Fast_line']
+            Slow_line = request.data['Slow_line']
+            Profit = request.data['Profit']
+            Loss = request.data['Loss']
+            Budget = request.data['Budget']
         except KeyError:
             return Response("6 parameters are all required.(Company_id, Fast_line, Slow_line, Profit, Loss, Budget)", status=status.HTTP_400_BAD_REQUEST)
         
@@ -377,12 +377,16 @@ def back_test_macd(request):
         if now_login_iid <= 0:
             return Response("Not logged in.", status=status.HTTP_400_BAD_REQUEST)
 
-        Creator_id = request.data['Creator_id']
+        #Creator_id = request.data['Creator_id']
         Company_id = request.data['Company_id']
         Fast_line = request.data['Fast_line']
         Slow_line = request.data['Slow_line']
         Profit = request.data['Profit']
         Loss = request.data['Loss']
+        Budget = request.data['Budget']
+
+        Fast_line = int(Fast_line)
+        Slow_line = int(Slow_line)
 
         deal = pd.DataFrame(list(Deal.objects.filter(company_id=Company_id).order_by('ddate').values('close_price', 'open_price')))
         Close = deal['close_price'].squeeze()
@@ -403,14 +407,16 @@ def back_test_macd(request):
             if macd_series[i] > 0 and stock == 1:
                 stock -= 1
                 sig.append(-1)
-            elif macd_series[i] < 0 and stock == 0:
+                Budget += 1000*Open[i+1]
+            elif macd_series[i] < 0 and stock == 0 and Budget > 1000*Open[i+1]:
                 stock += 1
                 sig.append(1)
+                Budget -= 1000*Open[i+1]
             else:
                 sig.append(0)
         macd_sig = pd.Series(index = macd_series.index, data = sig)
 
-        score = test(macd_sig, Open)
+        score = test(macd_sig, Open, 0)
 
     return Response(score, status=status.HTTP_200_OK)
 
@@ -420,12 +426,16 @@ def back_test_ema(request):
         if now_login_iid <= 0:
             return Response("Not logged in.", status=status.HTTP_400_BAD_REQUEST)
 
-        Creator_id = request.data['Creator_id']
+        #Creator_id = request.data['Creator_id']
         Company_id = request.data['Company_id']
         Fast_line = request.data['Fast_line']
         Slow_line = request.data['Slow_line']
         Profit = request.data['Profit']
         Loss = request.data['Loss']
+        Budget = request.data['Budget']
+
+        Fast_line = int(Fast_line)
+        Slow_line = int(Slow_line)
 
         deal = pd.DataFrame(list(Deal.objects.filter(company_id=Company_id).order_by('ddate').values('close_price', 'open_price')))
         Close = deal['close_price'].squeeze()
@@ -443,14 +453,16 @@ def back_test_ema(request):
             if f[i] > 0 and stock == 1:
                 stock -= 1
                 sig.append(-1)
-            elif f[i] < 0 and stock == 0:
+                Budget += 1000*Open[i+1]
+            elif f[i] < 0 and stock == 0 and Budget > 1000*Open[i+1]:
                 stock += 1
                 sig.append(1)
+                Budget -= 1000*Open[i+1]
             else:
                 sig.append(0)
         ema_sig = pd.Series(index = f.index, data = sig)
 
-        score = test(ema_sig, Open)
+        score = test(ema_sig, Open, 0)
 
     return Response(score, status=status.HTTP_200_OK)
 

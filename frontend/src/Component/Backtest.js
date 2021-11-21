@@ -62,12 +62,10 @@ const Backtest = ({ company, indicator, num1, num2, stopProfit, stopLoss, budget
       })
       .catch((error) => { console.log(error) })
     }
-      
   },[])
 
   return <>
-      <h3>回測分數: </h3>
-      <p>{backtest}</p>
+      <h3>回測分數: {backtest}</h3>
   </>
 }
 
