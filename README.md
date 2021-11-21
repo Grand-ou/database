@@ -99,5 +99,5 @@ yarn start
 <img width="1440" alt="截圖 2021-11-21 下午4 57 21" src="https://user-images.githubusercontent.com/92725965/142756599-b921228f-04c7-489a-8f4e-af71e53855b7.png">
 
 #### 策略結果
-[Uploading 截圖 2021-11-21 下午4.57.40.png…]()
+![image](https://github.com/Grand-ou/database/blob/main/截圖%202021-11-21%20下午4.57.40.png)
 
