@@ -5,7 +5,7 @@ const Header = () => {
     return (
         <div>
         <div class='header'>
-            <div id ='project'>Name</div>
+            <div id ='project'>投資決策測試系統</div>
             <div id = 'option'>
                 <div class='button'>
                     登入

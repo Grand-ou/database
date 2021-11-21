@@ -30,11 +30,11 @@ const App = () => {
   const [phone, setPhone] = useState('123');
   const [name, setName] = useState('123');
 
-  const [LR, setLR] = useState(false)
+  const [LR, setLR] = useState(true)
   const [login, setLogin] = useState(false)
   const [registerPage, setRegisterPage] = useState(false)
   const [register, setRegister] = useState(false)
-  const [menuset, setMenuset] = useState(true)
+  const [menuset, setMenuset] = useState(false)
   const [clickDeal, setClickDeal] = useState(false)
   const [clickCreate, setClickCreate] = useState(false)
   const [clickInd, setClickInd] = useState(false)         //選擇指標的確定鍵
@@ -75,12 +75,16 @@ const App = () => {
                       phone={phone} 
                       setRegister={setRegister} 
                       setMenuset={setMenuset} 
-                      setRegisterPage={setRegisterPage} />
+                      setRegisterPage={setRegisterPage}
+                      setLR={setLR} />
     :<></>}
     {menuset?<MenuSet setClickDeal={setClickDeal} 
                       setClickCreate={setClickCreate} 
                       setClickInd={setClickInd}
-                      setClickCompany={setClickCompany} />
+                      setClickCompany={setClickCompany}
+                      setClickCheck={setClickCheck}
+                      setCreateComplete={setCreateComplete}
+                      setWatchHistory={setWatchHistory} />
     :<></>}
     {clickCreate?
     <ChooseInd setIndicator={setIndicator}
