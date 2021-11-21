@@ -87,8 +87,8 @@ yarn start
 一般情況會自動開啟瀏覽器，若沒有請手動開啟 http://127.0.0.1:3000/ ，看到以下畫面即代表成功開啟前端且前後端連接成功。
 
 #### 首頁
-(<img width="1440" alt="截圖 2021-11-21 下午4 56 50" src="https://user-images.githubusercontent.com/92725965/142756484-537a9e31-019f-49f9-b16f-c4efc95491b6.png">
-查詢選單、大盤資訊)
+<img width="1440" alt="截圖 2021-11-21 下午4 56 50" src="https://user-images.githubusercontent.com/92725965/142756484-537a9e31-019f-49f9-b16f-c4efc95491b6.png">
+
 
 
 #### 個股查詢
