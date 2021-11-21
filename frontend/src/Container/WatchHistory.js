@@ -7,7 +7,7 @@ const WatchHistory = ({ userID, setWatchHistory, setClickCreate }) => {
     return(
         <div className='profit-loss'>
             <History userID={userID} />
-            <Button onClick={()=>{setWatchHistory(false); setClickCreate(true);}}>回上頁</Button>
+            <Button className='create_h3'onClick={()=>{setWatchHistory(false); setClickCreate(true);}}>回上頁</Button>
         </div>
     )
 }

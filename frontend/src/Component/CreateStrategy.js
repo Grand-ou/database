@@ -65,21 +65,29 @@ const CreateStrategy = ({ company, indicator, num1, num2, stopProfit, stopLoss, 
         setStrategy(res.data)
       })
       .catch((error) => { console.log(error) });
-      setStr1('長線: ');
-      setStr2('短線: ');
+      setStr1('長線:');
+      setStr2('短線:');
     }
   },[])
 
   return <>
-    <div>
-      <h3>策略創建成功！</h3>
-      <p>選擇公司：{company}</p>
-      <p>選擇指標：{indicator}</p>
-      <p>{str1}{num1}</p>
-      <p>{str2}{num2}</p>
-      <p>停利點: {stopProfit}</p>
-      <p>停損點: {stopLoss}</p>
-      <p>設置預算: {budget}</p>
+    <div className='create_s'>
+      <h3  className='create_h3'>策略創建成功！</h3>
+      <div className='strategy_div'>
+      <p className='create_strategy'>選擇公司：</p><p className='create_strategy'>{company}</p>
+      </div><div className='strategy_div'>
+      <p className='create_strategy'>選擇指標：</p><p className='create_strategy'>{indicator}</p>
+      </div><div className='strategy_div'>
+      <p className='create_strategy'>{str1}</p><p className='create_strategy'>{num1}</p>
+      </div><div className='strategy_div'>
+      <p className='create_strategy'>{str2}</p><p className='create_strategy'>{num2}</p>
+      </div><div className='strategy_div'>
+      <p className='create_strategy'>停利點 : </p><p className='create_strategy'>{stopProfit}</p>
+      </div><div className='strategy_div'>
+      <p className='create_strategy'>停損點 : </p><p className='create_strategy'>{stopLoss}</p>
+      </div><div className='strategy_div'>
+      <p className='create_strategy'>設置預算 : </p><p className='create_strategy'>{budget}</p>
+      </div>
     </div>
   </>
 }

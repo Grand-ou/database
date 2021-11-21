@@ -8,8 +8,8 @@ const Deal = ({ setCompany, setClickCompany, setMenuset,  setClickDeal }) => {
     return(
         <div className='schedule'>
             <Companies setCompany={setCompany} setClickCheck={setClickCompany} />
-            <Button onClick={()=>{setClickCompany(true);}}>確定</Button>
-            <Button onClick={()=>{setMenuset(true); setClickDeal(false); setClickCompany(false);}}>回上頁</Button>
+            <Button  className='create_h3' onClick={()=>{setClickCompany(true);}}>確定</Button>
+            <Button  className='create_h3' onClick={()=>{setMenuset(true); setClickDeal(false); setClickCompany(false);}}>回上頁</Button>
         </div>
     )
 }

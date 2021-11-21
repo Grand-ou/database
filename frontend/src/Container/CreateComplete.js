@@ -11,7 +11,7 @@ const CreateComplete = ({ company, indicator, num1, num2, stopProfit, stopLoss, 
     return(
         <div className='create'>
             <CreateStrategy company={company} indicator={indicator} num1={num1} num2={num2} stopProfit={stopProfit} stopLoss={stopLoss} budget={budget} />
-            <Button onClick={()=>{setCreateComplete(false); setClickCreate(true);}}>回上頁</Button>
+            <Button className='create_h3' onClick={()=>{setCreateComplete(false); setClickCreate(true);}}>回上頁</Button>
         </div>
     )
 }
